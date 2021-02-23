@@ -10,8 +10,12 @@ public class View {
 	public static final int USERINFO = 4;
 	public static final int USERUPDATE = 5;
 	public static final int CASHCHARGE = 6;
+
+	// main (로그인 후 첫화면)
+	public static final int MAIN = 7; 
+	
 	//prod main
-	public static final int MAIN = 11; // 상품조회화면(추천페이지 뜸
+	public static final int SEARCHSCREEN = 11; // 상품조회화면(추천페이지 뜸
 	public static final int BOARD_LIST = 12;
 	//prod serch
 	public static final int SEARCHPROD = 21;

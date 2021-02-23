@@ -3,10 +3,7 @@ package dao;
 import java.util.List;
 import java.util.Map;
 
-import controller.Controller;
 import util.JDBCUtil;
-import util.ScanUtil;
-import util.View;
 
 public class BoardDao { 
 
@@ -22,10 +19,12 @@ public class BoardDao {
 	private JDBCUtil jdbc = JDBCUtil.getInstance();
 	
 	public List<Map<String, Object>> selectBoardList(){
-
-//		Controller.loginUser.get("MEM_ID").toString();
-		String sql = "select PROD_id, PROD_NAME, PROD_SALE, PROD_DETAIL"
+		String sql = "select PROD_id, PROD_NAME, PROD_SALE, prod_detaIL"
 				+ " from PROD";
+/*				+ " left outer join PROD b"
+				+ " on a.PROD_id = b.user_id"
+				+ " order by a.board_no desc";
+*/		
 		return jdbc.selectList(sql);
 	}
 	

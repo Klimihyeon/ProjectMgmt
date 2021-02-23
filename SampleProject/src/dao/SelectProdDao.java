@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import controller.Controller;
 import util.JDBCUtil;
 import util.ScanUtil;
 
@@ -31,23 +30,50 @@ public class SelectProdDao {
 //		for(int i=0; i<syschoose.length; i++){
 //		param.add(syschoose[i]); // syschoose 배열 값 순서대로 param값에 넣기
 //		}
-		param.add("S0100002");
+		param.add("S0200001");
 		return jdbc.selectOne(sql, param);
 	}
 	
-	public List<Map<String, Object>> selectList() {   // 다중행 
+	public List<Map<String, Object>> selectrecommenddetail1() {   // 다중행 (현재 첫화면 추천페이지 상세글 용도로 사용중)
 		String sql = "SELECT P.PROD_NAME, P.PROD_TOTALSTOCK, P.PROD_SALE, P.PROD_ID, S.SALE_TITLE, S.SALE_NO "
 				+ "FROM SALEDETAIL SD "
 				+ "INNER JOIN PROD P ON P.PROD_ID = SD.PROD_ID "
 				+ "INNER JOIN SALE S ON S.SALE_NO = SD.SALE_NO "
-				+ "WHERE S.SALE_NO = ?"; // TEST 
+				+ "WHERE S.SALE_NO = ?"; 
 		List<Object> param = new ArrayList<>();
-		param.add("S0100002");   //  (SALE_NO 지정해놨음)
+		param.add("S0200001");   //  (임시지정)
 		return jdbc.selectList(sql, param);
 	}
 	
-	public List<Map<String, Object>> selectSaleNo(String input) {   // 게시글에 따른 상품들 검색 (다중행) 
+	public List<Map<String, Object>> selectrecommenddetail() {   // 다중행 (현재 첫화면 추천페이지 상세글 용도로 사용중)
 		String sql = "SELECT P.PROD_NAME, P.PROD_TOTALSTOCK, P.PROD_SALE, P.PROD_ID, S.SALE_TITLE, S.SALE_NO "
+				+ "FROM SALEDETAIL SD "
+				+ "INNER JOIN PROD P ON P.PROD_ID = SD.PROD_ID "
+				+ "INNER JOIN SALE S ON S.SALE_NO = SD.SALE_NO "
+				+ "WHERE S.SALE_NO = ?"; 
+		List<Object> param = new ArrayList<>();
+		param.add("S0200001");   //  (임시지정)
+		return jdbc.selectList(sql, param);
+	}
+	
+	
+	
+	
+	public List<Map<String, Object>> searchRate() {   //리뷰평점 내림차순(다중행) 
+		String sql = "SELECT P.PROD_ID, P.PROD_NAME, P.PROD_SALE,  AVG(R.RATING)"
+				+ "FROM PROD P INNER JOIN REVIEW R ON P.PROD_ID = R.PROD_ID"
+				+ "INNER JOIN MEMBER M ON R.MEM_ID = M.MEM_ID"
+				+ "GROUP BY P.PROD_ID"
+				+ "ORDER BY 2 DESC"; // TEST 		
+		return jdbc.selectList(sql);
+	}
+	
+	
+	
+
+	
+	public List<Map<String, Object>> selectSaleNo(String input) {   // 게시글에 따른 상품들 검색 (다중행) 
+		String sql = "SELECT P.PROD_NAME, P.PROD_TOTALSTOCK, P.PROD_SALE, P.PROD_ID, S.SALE_TITLE, S.SALE_NO, P.PROD_DETAIL "
 				+ "FROM SALEDETAIL SD "
 				+ "INNER JOIN PROD P ON P.PROD_ID = SD.PROD_ID "
 				+ "INNER JOIN SALE S ON S.SALE_NO = SD.SALE_NO "
@@ -70,7 +96,7 @@ public class SelectProdDao {
 	}
 	
 	public List<Map<String, Object>> searchdesc() {   // 가격내림차순검색(다중행 (조건))  
-		String sql = "SELECT P.PROD_NAME, P.PROD_TOTALSTOCK, P.PROD_SALE "
+		String sql = "SELECT P.PROD_NAME, P.PROD_TOTALSTOCK, P.PROD_SALE, S.SALE_NO, S.SALE_TITLE "
 				+ "FROM PROD P "
 				+ "INNER JOIN SALEDETAIL SD ON (P.PROD_ID = SD.PROD_ID) "
 				+ "INNER JOIN SALE S ON (S.SALE_NO = SD.SALE_NO) "
@@ -79,7 +105,7 @@ public class SelectProdDao {
 	}
 	
 	public List<Map<String, Object>> searchasc() {   // 가격오름차순검색(다중행 (조건))  
-		String sql = "SELECT P.PROD_NAME, P.PROD_TOTALSTOCK, P.PROD_SALE "
+		String sql = "SELECT P.PROD_NAME, P.PROD_TOTALSTOCK, P.PROD_SALE, S.SALE_NO, S.SALE_TITLE "
 				+ "FROM PROD P "
 				+ "INNER JOIN SALEDETAIL SD ON (P.PROD_ID = SD.PROD_ID) "
 				+ "INNER JOIN SALE S ON (S.SALE_NO = SD.SALE_NO) "
@@ -130,11 +156,9 @@ public class SelectProdDao {
 // cart_qty 설정, prodid, 	
 	
 	public int addcart(Map<String, Object> param){ 
-		String sql = "INSERT INTO CARTDETAIL"
-				+ "(CARTDETAIL_NO, CART_ID, CART_QTY, PROD_ID) "
-				+ "VALUES (CARTDETAIL_SEQ.NEXTVAL,?,?,?)";
+		String sql = "INSERT INTO CARTDETAIL(CARTDETAIL_NO, CART_ID, CART_QTY, PROD_ID) VALUES (CARTDETAIL_SEQ.NEXTVAL,?,?,?)";
 		List<Object> p = new ArrayList<>();
-		p.add(Controller.LoginUser.get("MEM_ID").toString()+"cart");
+		p.add(param.get("CART_ID"));
 		p.add(param.get("CART_QTY"));
 		p.add(param.get("PROD_ID"));
 		return jdbc.update(sql, p);

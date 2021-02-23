@@ -2,7 +2,6 @@ package controller;
 
 import java.util.Map;
 
-import dao.CashDao;
 import service.BoardService;
 import service.CartService;
 import service.CashService;
@@ -31,13 +30,13 @@ public class Controller {
 	
 	public static Map<String, Object> LoginUser; //로그인
 	
-	
 	private UserService userService = UserService.getInstance();
 	private BoardService boardService = BoardService.getInstance();
 	private CartService cartService = CartService.getInstance();
 	private SelectProdService selectProdService = SelectProdService.getInstance();
 	private CashService cashService = CashService.getInstance();
 	private OrderService orderService = OrderService.getInstance();
+	
 	
 	private void start() {
 		int view = View.HOME;
@@ -47,19 +46,20 @@ public class Controller {
 				case View.HOME: view = home(); break;
 				case View.LOGIN: view = userService.login(); break;
 				case View.JOIN: view = userService.join(); break;
-				case View.MAIN: view = boardService.boardList(); break;
-				case View.SEARCH : view = selectProdService.selectprod1(); break;
+				case View.BOARD_LIST: view = boardService.boardList(); break;
+				case View.MAIN : view = mainScreen(); break; // 로그인 후 첫화면
+				case View.SEARCHSCREEN : view = selectProdService.searchscreen(); break; // 1. 상품조회
 				case View.DELMEM : view = userService.delete(); break;
 				case View.CART_LIST: view = cartService.cartList(); break;
 				case View.DEL_CART : view = cartService.delete(); break;
-				case View.SEARCHPROD : view = selectProdService.searchprod(); break;
-				case View.CHOOSENUMBER : view = selectProdService.choosenumber(); break;
-				case View.SEARCHNAME : view = selectProdService.searchname(); break;
-				case View.SEARCHCATEGORY : view = selectProdService.searchcategory(); break;
-				case View.SEARCHRATE : view = selectProdService.searchrate(); break;
-				case View.SEARCHDESC : view = selectProdService.searchdesc(); break;
-				case View.SEARCHASC : view = selectProdService.searchasc(); break;
-				case View.ADDCART : view = selectProdService.addcart(); break;
+				case View.SEARCHPROD : view = selectProdService.searchprod(); break; // 1-1상품검색
+				case View.CHOOSENUMBER : view = selectProdService.choosenumber(); break; // 게시글 선택하면 나오는페이지
+				case View.SEARCHNAME : view = selectProdService.searchname(); break; // 1-1-1상품명검색 
+				case View.SEARCHCATEGORY : view = selectProdService.searchcategory(); break; // 1-1-2카테고리별검색
+				case View.SEARCHRATE : view = selectProdService.searchrate(); break; // 1-1-3별점순정렬
+				case View.SEARCHDESC : view = selectProdService.searchdesc(); break; // 1-1-4가격 내림차순
+				case View.SEARCHASC : view = selectProdService.searchasc(); break; // 1-1-5가격  오름차순
+				case View.ADDCART : view = selectProdService.addcart(); break; // 카트에상품추가
 				case View.USERINFO : view = userService.info(); break;
 				case View.USERUPDATE : view = userService.update(); break;
 				case View.CASHMAIN : view = cashService.selectorderdetail(); break;
@@ -68,13 +68,14 @@ public class Controller {
 				case View.ORDERMAIN : view = orderService.selectorderdetail(); break;
 			
 			
+			
 			}
 		}
 	}
 
 	private int home() { //홈화면
 		System.out.println("--------------------------------------");
-		System.out.println("1.로그인\t2.회원가입\t3.유저삭제\t4.유저인포\t0.프로그램 종료");
+		System.out.println("1.로그인\t2.회원가입\t0.프로그램 종료");
 		System.out.println("--------------------------------------");
 		System.out.print("번호 입력>");
 		
@@ -84,9 +85,6 @@ public class Controller {
 		switch (input) {
 			case 1: return View.LOGIN;
 			case 2: return View.JOIN;
-			case 3: return View.DELMEM;
-			case 4: return View.USERINFO;
-			case 5: return View.ADD_CART;
 			case 0:
 				System.out.println("프로그램이 종료되었습니다.");
 				System.exit(0);
@@ -94,11 +92,25 @@ public class Controller {
 		
 		return View.HOME;
 	}
+	private int mainScreen() { // 메인메뉴
+		System.out.println("--------------------------------------");
+		System.out.println("1.상품조회 \t2.장바구니\t3.내정보");
+		System.out.println("--------------------------------------");
+		System.out.print("번호 입력>");
 
-
-	
+		int input = ScanUtil.nextInt();
+			switch (input) {
+			case 1: return View.MAIN;
+			case 2: return View.CART_LIST; 
+			case 3: return View.USERINFO;
+			case 0: {
+				System.out.println("프로그램이 종료되었습니다.");
+				System.exit(0);
+		}
+		}
+		return View.SEARCHSCREEN;
+	}
 }
-
 
 
 

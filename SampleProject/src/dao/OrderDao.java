@@ -32,10 +32,20 @@ public class OrderDao {
 				+ " AND P.PROD_ID = CD.PROD_ID AND C.MEM_ID = ?";
 		List<Object> param = new ArrayList<>();
 		param.add(Controller.LoginUser.get("MEM_ID").toString());
-
 		return jdbc.selectList(sql, param);
 
 	}
+	
+	
+	
+	
+	public List<Map<String, Object>> ordercost() { // 주문 총금액 구하는 메서드
+		String sql = "SELECT SUM(CD.CART_QTY*P.PROD_SALE) ORDERCOST FROM   CARTDETAIL CD,  MEMBER M, CART C, PROD P WHERE  CD.CART_ID = C.CART_ID  AND M.MEM_ID  = C.MEM_ID AND P.PROD_ID = CD.PROD_ID  AND C.MEM_ID = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(Controller.LoginUser.get("MEM_ID").toString());
+		return jdbc.selectList(sql, param);
+	}
+	
 	
 	
 	public void modifyshipping(String add1, String add2) {

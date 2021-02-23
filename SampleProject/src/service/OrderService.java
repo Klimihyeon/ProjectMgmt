@@ -1,15 +1,11 @@
 package service;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
 import util.JDBCUtil;
 import util.ScanUtil;
 import util.View;
-import controller.Controller;
 import dao.CashDao;
 import dao.OrderDao;
 
@@ -33,21 +29,25 @@ public class OrderService {
 
 	
 		List<Map<String, Object>> orderList = orderDao.selectorderdetail();
-		
 		System.out.println("======================================");
 		System.out.println("================주문번호================");
 		System.out.println("==============구매자 정보=================");
+		System.out.println("이     름 : " +orderList.get(0).get("MEM_NAME"));
+		System.out.println("주     소 : " +orderList.get(0).get("MEM_ADD1"));
+		System.out.println("상세주소 : " +orderList.get(0).get("MEM_ADD2"));
+		System.out.println("휴대폰번호 : " +orderList.get(0).get("MEM_HP"));
+		System.out.println("캐쉬현황 : " +orderList.get(0).get("M.MEM_CASH")+"\n");
+	
+		int count=0;
+		
 		for(Map<String, Object> order : orderList){
-			System.out.println("\t" + order.get("CARTDETAIL_NO"));
-			System.out.println("이름" + order.get("MEM_NAME"));
-			System.out.println("주소" + order.get("MEM_ADD1"));
-			System.out.println("상세주소" + order.get("MEM_ADD2"));
-			System.out.println("휴대폰 번호" + order.get("MEM_HP"));
-			System.out.println("캐쉬 현황" + order.get("M.MEM_CASH"));
-			System.out.println("상품명" + order.get("PROD_NAME"));
-			System.out.println("상품가격" + order.get("PROD_SALE"));}
+			count++;
+			System.out.println("상 품 ["+count+"] : "+order.get("PROD_NAME"));
+			System.out.println("상품가격 : " + order.get("PROD_SALE")+"원\n");
+			}
+		
+		System.out.println("총 금 액 : "+orderDao.ordercost().get(0).get("ORDERCOST").toString()+"원");
 		System.out.println("=============구매 상품 정보================");
-	//		System.out.println("상품 수량" + order.get("CD.CART_QTY"));
 		
 		System.out.println("1.배송지 변경\t2.캐쉬 충전\t3.주문\t0.돌아가기");
 		System.out.println("입력>");
