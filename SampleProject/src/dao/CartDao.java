@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import controller.Controller;
 import util.JDBCUtil;
 import util.View;
 
@@ -22,19 +23,20 @@ public class CartDao {
 		private JDBCUtil jdbc = JDBCUtil.getInstance();
 		
 		public List<Map<String, Object>> selectCartList(){
-			String sql = "select a.cartdetail_no, a.cart_id, a.cart_qty, a.prod_id"
-					+ " from cartdetail a";
-/*					+ " left outer join prod b"
-					+ " on a.user_id = "
-					+ " order by a.board_no desc";
-*/			
-			return jdbc.selectList(sql);
+			String sql = "select a.CART_ID, a.CART_QTY, b.PROD_NAME, b.PROD_SALE "
+					+ " from CARTDETAIL a, PROD b "
+					+ " where a.PROD_ID = b.PROD_ID "
+					+ " and a.CART_ID = ? ";
+			List<Object> p = new ArrayList<>();
+			p.add(Controller.LoginUser.get("MEM_ID").toString()+"cart");
+			return jdbc.selectList(sql, p);
 		}
+		
 		public int deleteCartList(Map<String, Object> param){
-			String sql = "delete from cartdetail where cartdetail_no = ?";
+			String sql = "DELETE FROM CARTDETAIL WHERE CART_ID = ?";
 							
 				List<Object> p = new ArrayList<>();
-				p.add(param.get("cartdetail_no"));
+				p.add(Controller.LoginUser.get("MEM_ID").toString()+"cart");
 				
 				return jdbc.update(sql, p);
 		}
