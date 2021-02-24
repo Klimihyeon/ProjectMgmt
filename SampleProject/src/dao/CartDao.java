@@ -23,7 +23,8 @@ public class CartDao {
 		private JDBCUtil jdbc = JDBCUtil.getInstance();
 		
 		public List<Map<String, Object>> selectCartList(){ // 다중행
-			String sql = "select a.CART_ID, a.CART_QTY, b.PROD_NAME, b.PROD_SALE, b.PROD_ID "
+			String sql = "select a.CART_ID, a.CART_QTY, "
+					+ " b.PROD_NAME, b.PROD_SALE, b.PROD_ID "
 					+ " from CARTDETAIL a, PROD b "
 					+ " where a.PROD_ID = b.PROD_ID "
 					+ " and a.CART_ID = ? ";
@@ -33,8 +34,7 @@ public class CartDao {
 		}
 		
 		public int deleteCartList(Map<String, Object> param){
-			String sql = "DELETE FROM CARTDETAIL WHERE CART_ID = ?";
-							
+			String sql = "DELETE FROM CARTDETAIL WHERE CARTDETAIL_NO = ?";
 				List<Object> p = new ArrayList<>();
 				p.add(Controller.LoginUser.get("MEM_ID").toString()+"cart");
 				

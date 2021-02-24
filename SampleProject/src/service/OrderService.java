@@ -37,7 +37,6 @@ public class OrderService {
 	
 		List<Map<String, Object>> orderList = orderDao.selectorderdetail();
 //		HashMap<String, Object> orderListhm = new HashMap<>();
-		System.out.println(orderList);
 		System.out.println("======================================");
 		System.out.println("================주문번호================");
 		System.out.println("==============구매자 정보=================");

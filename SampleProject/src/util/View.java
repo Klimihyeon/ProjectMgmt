@@ -1,7 +1,26 @@
 package util;
 
 public class View {
+	////admin
+	//admin user
+	public static final int ADMINUSERMAIN = 990;
+	public static final int ADMINUSER = 991;
+	public static final int ADMINORDER = 992;
+	public static final int ADMINUSERDEL = 993;
+	public static final int ADMINUSERINFO = 994;
+	//admin prod
+	public static final int ADMINPROD = 910;
+	public static final int ADMINPRODMAIN = 911;	
+	public static final int ADMINPRODINFO = 912;	
+	public static final int ADMINPRODIN = 913;	
+	public static final int ADMINPRODDEL= 914;	
+	//admin order
+	public static final int ADMINORDERMAIN = 920;	
+	public static final int ADMINORDERINFO = 921;	
+	public static final int ADMINORDERSELEC = 922;	
+	public static final int ADMINORDERDELIVER = 923;	
 	
+	////user
 	//login ~ home
 	public static final int HOME = 0;
 	public static final int LOGIN = 1;
@@ -13,8 +32,10 @@ public class View {
 
 	// main (로그인 후 첫화면)
 	public static final int MAIN = 7; 
+	public static final int ADMINMAIN = 8;
 	
-	//prod main
+
+	//user prod main
 	public static final int SEARCHSCREEN = 11; // 상품조회화면(추천페이지 뜸
 	public static final int BOARD_LIST = 12;
 	//prod serch

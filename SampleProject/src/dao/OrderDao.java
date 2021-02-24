@@ -26,13 +26,13 @@ public class OrderDao {
 
 	
 	public List<Map<String, Object>> selectorderdetail() {
-		String sql = " SELECT CD.CARTDETAIL_NO, M.MEM_NAME, M.MEM_ADD1, "
-				+ " M.MEM_ADD2, M.MEM_HP, M.MEM_CASH, P.PROD_NAME, P.PROD_SALE, CD.CART_QTY "
-				+ " FROM CARTDETAIL CD,  MEMBER M, CART C, PROD P "
-				+ " WHERE  CD.CART_ID(+) = C.CART_ID AND M.MEM_ID  = C.MEM_ID "
-				+ " AND P.PROD_ID = CD.PROD_ID AND C.MEM_ID = 'cdw34'";
-//		List<Object> param = new ArrayList<>();
-//		param.add(Controller.LoginUser.get("MEM_ID").toString());
+		String sql = " SELECT CD.CARTDETAIL_NO, M.MEM_NAME, M.MEM_ADD1\r\n"
+				+ ",M.MEM_ADD2, M.MEM_HP, M.MEM_CASH, P.PROD_NAME, P.PROD_SALE, CD.CART_QTY\r\n"
+				+ " FROM CARTDETAIL CD, CART C, MEMBER M, PROD P\r\n"
+				+ " WHERE CD.CART_ID = C.CART_ID AND M.MEM_ID = C.MEM_ID\r\n"
+				+ " AND CD.PROD_ID = P.PROD_ID AND C.MEM_ID = '1'";
+		List<Object> param = new ArrayList<>();
+		param.add(Controller.LoginUser.get("MEM_ID").toString());
 		return jdbc.selectList(sql);
 
 	}

@@ -2,6 +2,7 @@ package controller;
 
 import java.util.Map;
 
+import service.AdminService;
 import service.BoardService;
 import service.CartService;
 import service.CashService;
@@ -36,39 +37,54 @@ public class Controller {
 	private SelectProdService selectProdService = SelectProdService.getInstance();
 	private CashService cashService = CashService.getInstance();
 	private OrderService orderService = OrderService.getInstance();
-	
+	private AdminService adminService = AdminService.getInstance();
 	
 	private void start() {
 		int view = View.HOME;
 		
 		while(true){
 			switch (view) {
-				case View.HOME: view = home(); break;
-				case View.LOGIN: view = userService.login(); break;
-				case View.JOIN: view = userService.join(); break;
-				case View.BOARD_LIST: view = boardService.boardList(); break;
-				case View.MAIN : view = mainScreen(); break; // 로그인 후 첫화면
+			//user
+			case View.HOME: view = home(); break;
+			case View.LOGIN: view = userService.login(); break;
+			case View.JOIN: view = userService.join(); break;
+			case View.MAIN: view = boardService.boardList(); break;
+			case View.DELMEM : view = userService.delete(); break;
+			case View.USERINFO : view = userService.info(); break;
+			case View.USERUPDATE : view = userService.update(); break;
+			
+			//ADMIN
+			case View.ADMINMAIN : view = adminService.mainScreen(); break; // 로그인 후 첫화면
+			case View.ADMINUSERMAIN : view = adminService.AUserScreen(); break; // 유저 관리
+			case View.ADMINUSER : view = adminService.AUserinfo(); break;
+			case View.ADMINUSERDEL : view = adminService.Admindelete(); break;
+			case View.ADMINUSERINFO : view = adminService.AdminUserinfo(); break;
+			
+//			case View.ADMINORDER : view = adminService.; break;
+			
+			//prod
+			
+			case View.SEARCHSCREEN : view = selectProdService.searchscreen(); break; // 1. 상품조회
+			case View.SEARCHPROD : view = selectProdService.searchprod(); break; // 1-1상품검색
+			case View.CHOOSENUMBER : view = selectProdService.choosenumber(); break; // 게시글 선택하면 나오는페이지
+			case View.SEARCHNAME : view = selectProdService.searchname(); break; // 1-1-1상품명검색 
+			case View.SEARCHCATEGORY : view = selectProdService.searchcategory(); break; // 1-1-2카테고리별검색
+			case View.SEARCHRATE : view = selectProdService.searchrate(); break; // 1-1-3별점순정렬
+			case View.SEARCHDESC : view = selectProdService.searchdesc(); break; // 1-1-4가격 내림차순
+			case View.SEARCHASC : view = selectProdService.searchasc(); break; // 1-1-5가격  오름차순
+			
+			//cart
+			
+			case View.CART_LIST: view = cartService.cartList(); break;
+			case View.ADDCART : view = selectProdService.addcart(); break; // 카트에상품추가
+			case View.DEL_CART : view = cartService.delete(); break;
+			
+			//order
+			
+			case View.CASHMAIN : view = cashService.selectorderdetail(); break;
+			case View.ORDERLIST : view = orderService.selectorderdetail(); break;
+			case View.ORDERMAIN : view = orderService.selectorderdetail(); break;
 				
-				case View.SEARCHSCREEN : view = selectProdService.searchscreen(); break; // 1. 상품조회
-				case View.DELMEM : view = userService.delete(); break;
-				case View.CART_LIST: view = cartService.cartList(); break;
-				case View.DEL_CART : view = cartService.delete(); break;
-				case View.SEARCHPROD : view = selectProdService.searchprod(); break; // 1-1상품검색
-				case View.CHOOSENUMBER : view = selectProdService.choosenumber(); break; // 게시글 선택하면 나오는페이지
-				case View.SEARCHNAME : view = selectProdService.searchname(); break; // 1-1-1상품명검색 
-				case View.SEARCHCATEGORY : view = selectProdService.searchcategory(); break; // 1-1-2카테고리별검색
-				case View.SEARCHRATE : view = selectProdService.searchrate(); break; // 1-1-3별점순정렬
-				case View.SEARCHDESC : view = selectProdService.searchdesc(); break; // 1-1-4가격 내림차순
-				case View.SEARCHASC : view = selectProdService.searchasc(); break; // 1-1-5가격  오름차순
-				case View.ADDCART : view = selectProdService.addcart(); break; // 카트에상품추가
-				case View.USERINFO : view = userService.info(); break;
-				case View.USERUPDATE : view = userService.update(); break;
-				case View.CASHMAIN : view = cashService.selectorderdetail(); break;
-				case View.ORDERLIST : view = orderService.selectorderdetail(); break;
-				case View.ADD_CART : view = selectProdService.addcart(); break;
-				case View.ORDERMAIN : view = orderService.selectorderdetail(); break;
-				
-
 			}
 		}
 	}
@@ -92,43 +108,8 @@ public class Controller {
 		
 		return View.HOME;
 	}
-	private int mainScreen() { // 메인메뉴
-		System.out.println("--------------------------------------");
-		System.out.println("1.상품조회 \t2.장바구니\t3.내정보");
-		System.out.println("--------------------------------------");
-		System.out.print("번호 입력>");
-
-		int input = ScanUtil.nextInt();
-			switch (input) {
-			case 1: return View.SEARCHSCREEN;
-			case 2: return View.CART_LIST; 
-			case 3: return View.USERINFO;
-			case 0: {
-				System.out.println("프로그램이 종료되었습니다.");
-				System.exit(0);
-		}
-		}
-		return View.SEARCHSCREEN;
-	}
 	
-	private int s_mainScreen() { // 메인메뉴
-		System.out.println("--------------------------------------");
-		System.out.println("1.상품조회 \t2.장바구니\t3.내정보");
-		System.out.println("--------------------------------------");
-		System.out.print("번호 입력>");
-
-		int input = ScanUtil.nextInt();
-			switch (input) {
-			case 1: return View.SEARCHSCREEN;
-			case 2: return View.CART_LIST; 
-			case 3: return View.USERINFO;
-			case 0: {
-				System.out.println("프로그램이 종료되었습니다.");
-				System.exit(0);
-		}
-		}
-		return View.SEARCHSCREEN;
-	}
+	
 }
 
 

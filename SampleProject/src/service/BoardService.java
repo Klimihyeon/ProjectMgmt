@@ -24,25 +24,25 @@ public class BoardService {
 		List<Map<String, Object>> boardList = boardDao.selectBoardList();
 		
 		System.out.println("=======================================");
-		System.out.println("번호\t제목\t작성자\t작성일");
-		System.out.println("---------------------------------------");
+		System.out.println("-------------오늘의 핫딜!-------------");
+		System.out.println("제품\t\t\t가격");
 		for(Map<String, Object> board : boardList){
-			System.out.println(board.get("PROD_id")
-					+ "\t" + board.get("PROD_NAME")
-					+ "\t" + board.get("PROD_SALE"));
+			System.out.println(board.get("PROD_NAME"));
+			System.out.print("\t" + "\t" + "\t");
+			System.out.println(board.get("PROD_SALE"));
 		}
 		System.out.println("=======================================");
-		System.out.println("1.조회\t2.카트조회\t0.로그아웃");
+		System.out.println("1.상품조회\t 2.카트조회\t 0.로그아웃");
 		System.out.print("입력>");
 		
 		int input = ScanUtil.nextInt();
 		switch (input) {
 		case 1:
-			break;
+			return View.SEARCHSCREEN;
 		case 2:
 			return View.CART_LIST;
 		}
-		return View.BOARD_LIST;
+		return View.HOME;
 	}
 	
 }

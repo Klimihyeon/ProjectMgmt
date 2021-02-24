@@ -115,7 +115,11 @@ public class UserService {
 
 		if(user == null){
 			System.out.println("아이디 혹은 비밀번호를 잘못 입력하셨습니다.");
-		}else{
+		}else if(userId.equals("admin")) {
+			System.out.println("관리자 ID로 접속하셨습니다.");
+			return View.ADMINMAIN;
+		}
+		else{
 			System.out.println("로그인 성공");
 			Controller.LoginUser = user;
 			return View.MAIN;
