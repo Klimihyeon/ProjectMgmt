@@ -33,7 +33,7 @@ public class CartDao {
 		}
 		
 		public int deleteCartList(Map<String, Object> param){
-			String sql = "DELETE FROM CARTDETAIL WHERE CART_ID = ?";
+			String sql = "DELETE FROM CARTDETAIL WHERE CARTDETAIL_NO = ?";
 							
 				List<Object> p = new ArrayList<>();
 				p.add(Controller.LoginUser.get("MEM_ID").toString()+"cart");
