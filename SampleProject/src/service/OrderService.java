@@ -1,14 +1,11 @@
 package service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import util.JDBCUtil;
 import util.ScanUtil;
 import util.View;
-import dao.CartDao;
 import dao.CashDao;
 import dao.OrderDao;
 
@@ -18,10 +15,7 @@ public class OrderService {
 	JDBCUtil jdbc = JDBCUtil.getInstance();
 	private OrderDao orderDao = OrderDao.getInstance();
 	private CashDao cashDao = CashDao.getInstance();
-	private CartDao cartDao = CartDao.getInstance();
 	
-	List<Map<String, Object>>  templi = new ArrayList<>(); 
-	HashMap <String,Object>temphm = new HashMap<>();
 	public OrderService(){}
 	private static OrderService instance;
 	public static OrderService getInstance(){
@@ -35,8 +29,6 @@ public class OrderService {
 
 	
 		List<Map<String, Object>> orderList = orderDao.selectorderdetail();
-//		HashMap<String, Object> orderListhm = new HashMap<>();
-		System.out.println(orderList);
 		System.out.println("======================================");
 		System.out.println("================주문번호================");
 		System.out.println("==============구매자 정보=================");
@@ -44,18 +36,17 @@ public class OrderService {
 		System.out.println("주     소 : " +orderList.get(0).get("MEM_ADD1"));
 		System.out.println("상세주소 : " +orderList.get(0).get("MEM_ADD2"));
 		System.out.println("휴대폰번호 : " +orderList.get(0).get("MEM_HP"));
-		System.out.println("캐쉬현황 : " +orderList.get(0).get("MEM_CASH")+"\n");
+		System.out.println("캐쉬현황 : " +orderList.get(0).get("M.MEM_CASH")+"\n");
+	
 		int count=0;
 		
 		for(Map<String, Object> order : orderList){
 			count++;
 			System.out.println("상 품 ["+count+"] : "+order.get("PROD_NAME"));
 			System.out.println("상품가격 : " + order.get("PROD_SALE")+"원\n");
-			System.out.println("수 량 : " + order.get("CART_QTY")+"개\n");
 			}
 		
 		System.out.println("총 금 액 : "+orderDao.ordercost().get(0).get("ORDERCOST").toString()+"원");
-		String ordercost = orderDao.ordercost().get(0).get("ORDERCOST").toString();
 		System.out.println("=============구매 상품 정보================");
 		
 		System.out.println("1.배송지 변경\t2.캐쉬 충전\t3.주문\t0.돌아가기");
@@ -72,34 +63,17 @@ public class OrderService {
 			break;
 			
 		case 2 :
-			System.out.println("얼마를 충전하시겠습니까?");
 			int cash = ScanUtil.nextInt();
 			orderDao.chargecash(cash);
-			System.out.println(cash+"원 캐쉬충전이 완료되었습니다.");
+			System.out.println("캐쉬충전이 완료되었습니다.");
 			break;
 			
 		case 3 :
-			// cart -> order () 
-			System.out.println("변화행~ : "+orderDao.order3()); // cart-> order		
-			System.out.println(orderDao.selectorder());
-			// cartdetail -> orderdetail (prodid, cartqty -> 데이터 복붙, orderno )
-			List<Map<String, Object>> cartList = cartDao.selectCartList();
-			templi = new ArrayList<>(); // 글번호 연동할 리스트 (게시글 상세조회시) (글번호는 상품별로 달림)
-			for(int i=0; i<cartList.size(); i++){
-			temphm = new HashMap<>();	
-			temphm.put("PROD_ID",cartList.get(i).get("PROD_ID"));
-			temphm.put("CART_QTY",cartList.get(i).get("CART_QTY"));			
-				templi.add((temphm));
-				System.out.println("cart(prodid, cartqty) -> list,hm 이동완료");		
-			}
+
+			int stock = orderDao.getstock();
+			int cashcash = cashDao.getcash();
 			
-			
-			
-			int stock = orderDao.getstock(); // 주문수량
-			int cashcash = cashDao.getcash(); //  주문금액
-			
-			//orderDao.order(stock, cashcash);
-		
+			orderDao.order(stock, cashcash);
 			System.out.println("주문이 완료되었습니다.");
 			return View.HOME;			
 			

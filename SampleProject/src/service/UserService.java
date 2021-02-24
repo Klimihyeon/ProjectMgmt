@@ -118,7 +118,7 @@ public class UserService {
 		}else{
 			System.out.println("로그인 성공");
 			Controller.LoginUser = user;
-			return View.MAIN;
+			return View.SEARCHSCREEN;
 		}
 		Map<String, Object> user2 = userDao.UserInfo(userId, password);
 		return View.HOME;
