@@ -28,40 +28,38 @@ public class CartService {
 		System.out.println("=======================================");
 		System.out.println("카트넘버\t카트ID\t수량\t제품");
 		System.out.println("---------------------------------------");
+		if(cartList.size() == 0) {
+			System.out.println("카트에 담긴 상품이 없습니다.");}
 		for(Map<String, Object> cart : cartList){
-			System.out.println(cart.get("cartdetail_no")
-					+ "\t" + cart.get("cart_id")
-					+ "\t" + cart.get("cart_qty")
-					+ "\t" + cart.get("prod_id"));
-			if(cart.get("cartdetail_no") == null) {
-				System.out.println("카트에 담긴 상품이 없습니다.");
-				
-			}
+			System.out.println(cart.get("CART_ID")
+					+ "\t" + cart.get("CART_QTY")
+					+ "\t" + cart.get("PROD_NAME")
+					+ "\t" + cart.get("PROD_SALE"));
+			
 		}
 	
 		System.out.println("=======================================");
-		System.out.println("1.물품등록\t2.등록\t3.물품삭제");
+		System.out.println("1.결재\t2.장바구니 물품삭제\t3.장보러가기");
 		System.out.print("입력>");
 		
 		int input = ScanUtil.nextInt();
 		switch (input) {
 		case 1:
-		return View.BOARD_LIST;
+			return View.ORDERMAIN;
 		case 2:
-		break;
+			return View.DEL_CART;
 		case 3:
-//		return View.CART_D_LIST;
+			return View.MAIN;
 		}
 		return View.CART_LIST;
 	}
 	
 	public int delete(){
-		System.out.println("지우고 싶은 목록 버튼을 눌러주세요.");
-		int cartNo = ScanUtil.nextInt();
-		
 		Map<String, Object> param = new HashMap<>();
-		
-		param.put("Cartdetailno", cartNo);
+		System.out.println("지우고 싶은 목록 버튼을 눌러주세요.");
+		int cartNo = ScanUtil.nextInt();	
+	
+		param.put("CARTDETAIL_NO", cartNo);
 		
 		int result = cartDao.deleteCartList(param);
 		

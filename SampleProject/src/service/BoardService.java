@@ -6,7 +6,6 @@ import java.util.Map;
 import util.ScanUtil;
 import util.View;
 import dao.BoardDao;
-import dao.UserDao;
 
 public class BoardService {
 	
@@ -42,10 +41,7 @@ public class BoardService {
 			break;
 		case 2:
 			return View.CART_LIST;
-
-			
 		}
-		
 		return View.BOARD_LIST;
 	}
 	
