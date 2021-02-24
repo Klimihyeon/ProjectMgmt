@@ -82,32 +82,28 @@ public class OrderService {
 		case 3 :
 			// cart -> order 정보이동 
 			System.out.println("변화행~ : "+orderDao.order3()); 		
-			System.out.println(orderDao.selectorder().size());	
-			int size = orderDao.selectorder().size();
+			System.out.println(orderDao.selectorder().size());	// 회원의 주문목록 행수
+			int size = orderDao.selectorder().size(); // 
 			// cartdetail -> orderdetail  정보이동
 			// prodid, cartqty -> 데이터 복붙, orderno
-			templi = new ArrayList<>();
-			System.out.println(cartService.tempyeongjun().size());
+//			templi = new ArrayList<>();
+			System.out.println(cartDao.selectCartList().size()); // 카트에 담긴 상품의 개수 (10개)
+			
+//			System.out.println(orderDao.selectordernoone().get("MAX(ORDER1_NO)"));
+			
+			
 			for(int i=0; i<cartDao.selectCartList().size(); i++){
-			temphm = new HashMap<>();	
-			temphm.put("PROD_ID",cartDao.selectCartList().get(i).get("PROD_ID"));
-			
-			cartDao.selectCartList().get(i).get("PROD_ID").toString();
-			cartDao.selectCartList().get(i).get("PROD_ID").toString();
-			
-			temphm.put("CART_QTY",cartDao.selectCartList().get(i).get("CART_QTY"));
-				templi.add((temphm));
+			String prodid = cartDao.selectCartList().get(i).get("PROD_ID").toString(); // 상품id
+			System.out.println(prodid);
+			int cartqty = Integer.valueOf(cartDao.selectCartList().get(i).get("CART_QTY").toString()); //상품수량
+			System.out.println(cartqty);
+			orderDao.test2(prodid, cartqty);
+			orderDao.minusstock(cartqty, prodid);
+			orderDao.minuscash(Integer.valueOf(cartDao.selectCartList().get(i).get("PROD_SALE").toString()));
 			}
-			System.out.println("cart(prodid, cartqty) -> list,hm 이동완료");
-			System.out.println(templi);
-			System.out.println(temphm);
-			aaa
-			
-			
-			int stock = orderDao.getstock(); // 주문수량
-			int cashcash = cashDao.getcash(); //  주문금액
-			
-			//orderDao.order(stock, cashcash);
+			System.out.println("카트 delete전");
+			cartDao.deleteCartList();
+			System.out.println("카트 delete후");
 		
 			System.out.println("주문이 완료되었습니다.");
 			return View.HOME;			

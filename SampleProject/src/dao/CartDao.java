@@ -32,12 +32,10 @@ public class CartDao {
 			return jdbc.selectList(sql, p);
 		}
 		
-		public int deleteCartList(Map<String, Object> param){
+		public int deleteCartList(){
 			String sql = "DELETE FROM CARTDETAIL WHERE CART_ID = ?";
-							
 				List<Object> p = new ArrayList<>();
 				p.add(Controller.LoginUser.get("MEM_ID").toString()+"cart");
-				
 				return jdbc.update(sql, p);
 		}
 	

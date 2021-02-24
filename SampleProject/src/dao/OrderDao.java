@@ -103,25 +103,28 @@ public class OrderDao {
 	}
 
 
-	public void order1(int stock, int cash) {
-	      
-	      String sqlstock = "UPDATE PROD SET PROD_TOTALSTOCK = (PROD_TOTALSTOCK - ?)  WHERE PROD_ID = 'P101000001'";
-	      
-	      List<Object> paramstock = new ArrayList<>();
-	      paramstock.add(stock);
-	      
-	      int updatestock = jdbc.update(sqlstock, paramstock);
-	      System.out.println(updatestock);
+	public int minusstock(int cartqty, String prodid) {
+	      // 재고 빼기
+	      String sql = "UPDATE PROD "
+	      		+ " SET PROD_TOTALSTOCK = (PROD_TOTALSTOCK - ?)  "
+	      		+ " WHERE PROD_ID = ?";
+	      List<Object> param = new ArrayList<>();
+//	      paramstock.add(1);
+//	      param.add("P101000010");
+	      param.add(cartqty);
+	      param.add(prodid);
+	      return jdbc.update(sql,param);
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public void order2(int stock, int cash) {
-	      String sqlcash = "UPDATE PROD SET PROD_TOTALSTOCK = (PROD_TOTALSTOCK - ?)  WHERE PROD_ID = 'P101000001'";
-	      
-	      List<Object> paramcash = new ArrayList<>();
-	      paramcash.add(cash);
-	      
-	      int updatecash = jdbc.update(sqlcash, paramcash);
-	      System.out.println(updatecash);
+	public int minuscash(int prodsale) {
+		// 캐쉬 빼기
+		String sql = "UPDATE MEMBER "
+				+ " SET MEM_CASH = (MEM_CASH - ?)  "
+				+ " WHERE MEM_ID = ?";
+	      List<Object> param = new ArrayList<>();
+	      param.add(prodsale);
+	      param.add(Controller.LoginUser.get("MEM_ID").toString());
+	      return jdbc.update(sql, param);
 	}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	      
 	     //
@@ -155,17 +158,40 @@ public class OrderDao {
 	      System.out.println(updateorderdetail);
 	}
 
-	public int test(String str1, String str2) { 
-		String sql = "INSERT INTO ORDERDETAIL(ORDERDETAIL_NO, ORDER1_NO, PROD_ID, ORDERDETAIL_QTY) VALUES(ORDERDETAIL_SEQ.NEXTVAL, , ?, ?)";
+	public int test(String str1, String str2, int in1) {  // 
+		String sql = "INSERT INTO ORDERDETAIL(ORDERDETAIL_NO, ORDER1_NO, PROD_ID, ORDERDETAIL_QTY) VALUES(ORDERDETAIL_SEQ.NEXTVAL, ? , ?, ?)";
 		List<Object> param = new ArrayList<>();
+//		param.add("210224034928cdw34"); // order1no
+//		param.add("P101000010"); // prodid
+//		param.add(1); // qty
 		param.add(str1);
 		param.add(str2);
+		param.add(in1);
 		return jdbc.update(sql, param);
 	}
 	
+	public int test2(String str2, int in1) {  // 
+		String sql = "INSERT INTO ORDERDETAIL(ORDERDETAIL_NO, ORDER1_NO, PROD_ID, ORDERDETAIL_QTY) "
+				+ " VALUES(ORDERDETAIL_SEQ.NEXTVAL, (select max(order1_no)  from order1  where mem_id = ?) , ?, ?)";
+		List<Object> param = new ArrayList<>();
+//		param.add("210224034928cdw34"); // order1no
+		param.add(Controller.LoginUser.get("MEM_ID").toString());
+//		param.add("P101000010"); // prodid
+//		param.add(1); // qty
+		 
+//		param.add(str1);
+		param.add(str2);
+		param.add(in1);
+		return jdbc.update(sql, param);
+	}
 	
-	
-	   }
+	public  Map<String, Object> selectordernoone () {  // 
+		String sql = "select max(order1_no) from order1 where mem_id = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(Controller.LoginUser.get("MEM_ID").toString());
+		return jdbc.selectOne(sql, param);
+	}
+   }
 
 
 	

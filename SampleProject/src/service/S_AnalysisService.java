@@ -12,8 +12,13 @@ public class S_AnalysisService {
 			return instance;
 		}
 	
+	public int  me1 (){
+//		System.out.println("=======================================");
+		System.out.println("---------------------------------------");
+		System.out.println("1.매출분석\t\t2.\t\t");
+		System.out.println("---------------------------------------");
 	
 	
-	
-	
+	return 1;
+}
 }
