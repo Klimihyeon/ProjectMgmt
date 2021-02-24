@@ -19,9 +19,8 @@ public class BoardDao {
 	private JDBCUtil jdbc = JDBCUtil.getInstance();
 	
 	public List<Map<String, Object>> selectBoardList(){
-		String sql = "select PROD_NAME, PROD_SALE"
-				+ " from PROD"
-				+ " WHERE PROD_SALE < 50000";
+		String sql = "select PROD_id, PROD_NAME, PROD_SALE, prod_detaIL"
+				+ " from PROD";
 /*				+ " left outer join PROD b"
 				+ " on a.PROD_id = b.user_id"
 				+ " order by a.board_no desc";

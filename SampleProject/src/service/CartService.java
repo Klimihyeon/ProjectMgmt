@@ -34,8 +34,7 @@ public class CartService {
 			System.out.println(cart.get("CART_ID")
 					+ "\t" + cart.get("CART_QTY")
 					+ "\t" + cart.get("PROD_NAME")
-					+ "\t" + cart.get("PROD_SALE"));
-			
+					+ "\t" + cart.get("PROD_SALE"));	
 		}
 	
 		System.out.println("=======================================");
@@ -52,6 +51,11 @@ public class CartService {
 			return View.MAIN;
 		}
 		return View.CART_LIST;
+	}
+	
+	public List<Map<String, Object>> tempyeongjun(){ //임시 테스트
+		List<Map<String, Object>> cartList = cartDao.selectCartList();	
+		return cartList;
 	}
 	
 	public int delete(){
