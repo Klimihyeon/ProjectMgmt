@@ -37,17 +37,18 @@ public int searchscreen(){ // 메인화면(추천상품) 1. 상품검색 2. 글�
 	System.out.println("글번호\t\t제목\t\t");
 	System.out.println("---------------------------------------");
 	out : for(int i=0; i<selectProdDao.selectrecommenddetail().size(); i++){
+//		out : for(int i=0; i<1; i++){
 		temphm = new HashMap<>();	
 		if(i!=0){// i=1이후부터 이전출력 게시물의 제목과 같으면 건너뛰기 (삼성특별전같은 경우 여러행으로 출력되서)
 			if(selectProdDao.selectrecommenddetail().get(i).get("SALE_TITLE").toString().equals(selectProdDao.selectrecommenddetail().get(i-1).get("SALE_TITLE").toString())){
-				temphm.put("SALE_NO",selectProdDao.selectrecommenddetail().get(i).get("SALE_NO"));
+				temphm.put("SALE_NO", selectProdDao.selectrecommenddetail().get(i).get("SALE_NO"));
 				templi.add((temphm));
 				continue out;
 			}
 		}
 		    System.out.print("["+i+"] ");
 			System.out.print("\t"+selectProdDao.selectrecommenddetail().get(i).get("SALE_TITLE"));
-			temphm.put("SALE_NO",selectProdDao.selectrecommenddetail().get(i).get("SALE_NO")); // 0번글은 리스트 0번째이고 그에 들어간 hashmap에는 prod_id가 저장되어있다.			
+			temphm.put("SALE_NO", selectProdDao.selectrecommenddetail().get(i).get("SALE_NO")); // 0번글은 리스트 0번째이고 그에 들어간 hashmap에는 prod_id가 저장되어있다.			
 		templi.add((temphm));
 		System.out.println();
 	}
@@ -243,24 +244,27 @@ public int searchasc(){
 }
 
 public int choosenumber(){   // 게시글(SALE_NO)의 속한 상품 출력 
-	Object stemp = templi.get(snumber).get("SALE_NO");
-	selectProdDao.selectSaleNo(templi.get(snumber).get("SALE_NO").toString());
+	Object stemp = templi.get(snumber).get("SALE_NO"); // 게시글번호 변수저장
+	selectProdDao.selectSaleNo(stemp.toString());
 //System.out.println("size : "+selectProdDao.selectSaleNo(stemp.toString()).size());  // for문 i범위  
 	templi2 = new ArrayList<>(); // 글번호 연동할 리스트
 	System.out.println("=======================================");
 	System.out.println("글번호\t\t제목\t\t");
 	System.out.println("---------------------------------------");
 	for(int i=0; i<selectProdDao.selectSaleNo(stemp.toString()).size(); i++){
+		System.out.println(selectProdDao.selectSaleNo(stemp.toString()).size());
 		temphm2 = new HashMap<>();		
 		System.out.println("["+i+"]번 상품 ");
 			System.out.println("상    품   명 : "+selectProdDao.selectSaleNo(stemp.toString()).get(i).get("PROD_NAME"));
 			System.out.println("가          격 : "+selectProdDao.selectSaleNo(stemp.toString()).get(i).get("PROD_SALE"));
 			System.out.println("제          원 : "+selectProdDao.selectSaleNo(stemp.toString()).get(i).get("PROD_DETAIL"));
 			System.out.println("주문가능수량 : "+selectProdDao.selectSaleNo(stemp.toString()).get(i).get("PROD_TOTALSTOCK"));
-			temphm2.put("PROD_ID",selectProdDao.selectSaleNo(stemp.toString()).get(i).get("PROD_ID")); 			
+			temphm2.put("PROD_ID",selectProdDao.selectSaleNo(stemp.toString()).get(i).get("PROD_ID"));
+			templi2.add(temphm2);
 		}
-		templi2.add(temphm2);
 		System.out.println("\n1. 장바구니에 담기  2.뒤로");
+		System.out.println(templi2);
+		System.out.println(temphm2);
 		switch (ScanUtil.nextInt()) {
 		case 1: {
 			if(selectProdDao.selectSaleNo(stemp.toString()).size()==1){

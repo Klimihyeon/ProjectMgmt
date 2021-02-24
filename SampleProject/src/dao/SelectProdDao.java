@@ -25,7 +25,7 @@ public class SelectProdDao {
 	
 	public Map<String, Object> selectrecommend (){ // 첫화면 (추천상품 조회) 운영자가 게시글 선택하여
 	//String syschoose[] = {"S0200001"};	
-		String sql = "select SALE_NO, SALE_TITLE FROM SALE WHERE SALE_NO = ?";
+		String sql = " select SALE_NO, SALE_TITLE FROM SALE WHERE SALE_NO = ?";
 		List<Object> param = new ArrayList<>();
 //		for(int i=0; i<syschoose.length; i++){
 //		param.add(syschoose[i]); // syschoose 배열 값 순서대로 param값에 넣기
@@ -36,10 +36,10 @@ public class SelectProdDao {
 	
 	public List<Map<String, Object>> selectrecommenddetail1() {   // 다중행 (현재 첫화면 추천페이지 상세글 용도로 사용중)
 		String sql = "SELECT P.PROD_NAME, P.PROD_TOTALSTOCK, P.PROD_SALE, P.PROD_ID, S.SALE_TITLE, S.SALE_NO "
-				+ "FROM SALEDETAIL SD "
-				+ "INNER JOIN PROD P ON P.PROD_ID = SD.PROD_ID "
-				+ "INNER JOIN SALE S ON S.SALE_NO = SD.SALE_NO "
-				+ "WHERE S.SALE_NO = ?"; 
+				+ " FROM SALEDETAIL SD "
+				+ " INNER JOIN PROD P ON P.PROD_ID = SD.PROD_ID "
+				+ " INNER JOIN SALE S ON S.SALE_NO = SD.SALE_NO "
+				+ " WHERE S.SALE_NO = ?"; 
 		List<Object> param = new ArrayList<>();
 		param.add("S0200001");   //  (임시지정)
 		return jdbc.selectList(sql, param);
@@ -47,10 +47,10 @@ public class SelectProdDao {
 	
 	public List<Map<String, Object>> selectrecommenddetail() {   // 다중행 (현재 첫화면 추천페이지 상세글 용도로 사용중)
 		String sql = "SELECT P.PROD_NAME, P.PROD_TOTALSTOCK, P.PROD_SALE, P.PROD_ID, S.SALE_TITLE, S.SALE_NO "
-				+ "FROM SALEDETAIL SD "
-				+ "INNER JOIN PROD P ON P.PROD_ID = SD.PROD_ID "
-				+ "INNER JOIN SALE S ON S.SALE_NO = SD.SALE_NO "
-				+ "WHERE S.SALE_NO = ?"; 
+				+ " FROM SALEDETAIL SD "
+				+ " INNER JOIN PROD P ON P.PROD_ID = SD.PROD_ID "
+				+ " INNER JOIN SALE S ON S.SALE_NO = SD.SALE_NO "
+				+ " WHERE S.SALE_NO = ?"; 
 		List<Object> param = new ArrayList<>();
 		param.add("S0200001");   //  (임시지정)
 		return jdbc.selectList(sql, param);
@@ -60,11 +60,11 @@ public class SelectProdDao {
 	
 	
 	public List<Map<String, Object>> searchRate() {   //리뷰평점 내림차순(다중행) 
-		String sql = "SELECT P.PROD_ID, P.PROD_NAME, P.PROD_SALE,  AVG(R.RATING)"
-				+ "FROM PROD P INNER JOIN REVIEW R ON P.PROD_ID = R.PROD_ID"
-				+ "INNER JOIN MEMBER M ON R.MEM_ID = M.MEM_ID"
-				+ "GROUP BY P.PROD_ID"
-				+ "ORDER BY 2 DESC"; // TEST 		
+		String sql = " SELECT P.PROD_ID, P.PROD_NAME, P.PROD_SALE,  AVG(R.RATING)"
+				+ " FROM PROD P INNER JOIN REVIEW R ON P.PROD_ID = R.PROD_ID"
+				+ " INNER JOIN MEMBER M ON R.MEM_ID = M.MEM_ID"
+				+ " GROUP BY P.PROD_ID"
+				+ " ORDER BY 2 DESC"; // TEST 		
 		return jdbc.selectList(sql);
 	}
 	
@@ -72,12 +72,12 @@ public class SelectProdDao {
 	
 
 	
-	public List<Map<String, Object>> selectSaleNo(String input) {   // 게시글에 따른 상품들 검색 (다중행) 
-		String sql = "SELECT P.PROD_NAME, P.PROD_TOTALSTOCK, P.PROD_SALE, P.PROD_ID, S.SALE_TITLE, S.SALE_NO, P.PROD_DETAIL "
-				+ "FROM SALEDETAIL SD "
-				+ "INNER JOIN PROD P ON P.PROD_ID = SD.PROD_ID "
-				+ "INNER JOIN SALE S ON S.SALE_NO = SD.SALE_NO "
-				+ "WHERE S.SALE_NO = ?"; // TEST 
+	public List<Map<String, Object>> selectSaleNo(String input) {   // 입력한 게시글번호의 상품들 검색 (다중행) 
+		String sql = " SELECT P.PROD_NAME, P.PROD_TOTALSTOCK, P.PROD_SALE, P.PROD_ID, S.SALE_TITLE, S.SALE_NO, P.PROD_DETAIL"
+				+ " FROM SALEDETAIL SD "
+				+ " INNER JOIN PROD P ON P.PROD_ID = SD.PROD_ID "
+				+ " INNER JOIN SALE S ON S.SALE_NO = SD.SALE_NO "
+				+ " WHERE S.SALE_NO = ?"; // TEST 
 		List<Object> param = new ArrayList<>();
 		param.add(input);   //  
 		return jdbc.selectList(sql, param);
@@ -85,31 +85,31 @@ public class SelectProdDao {
 	
 	// 
 	public List<Map<String, Object>> selectList(String input) {   // 상품명검색(다중행 (조건))  
-		String sql = "SELECT * "
-				+ "FROM PROD P "
-				+ "INNER JOIN SALEDETAIL SD ON (P.PROD_ID = SD.PROD_ID) "
-				+ "INNER JOIN SALE S ON (S.SALE_NO = SD.SALE_NO) "
-				+ "WHERE SALE_TITLE LIKE '%'||?||'%'";  // ★시발 이렇게 해야함
+		String sql = " SELECT * "
+				+ " FROM PROD P "
+				+ " INNER JOIN SALEDETAIL SD ON (P.PROD_ID = SD.PROD_ID) "
+				+ " INNER JOIN SALE S ON (S.SALE_NO = SD.SALE_NO) "
+				+ " WHERE SALE_TITLE LIKE '%'||?||'%'";  // ★시발 이렇게 해야함
 		List<Object> param = new ArrayList<>();
 		param.add(input);    // ★  해결!
 		return jdbc.selectList(sql, param);
 	}
 	
 	public List<Map<String, Object>> searchdesc() {   // 가격내림차순검색(다중행 (조건))  
-		String sql = "SELECT P.PROD_NAME, P.PROD_TOTALSTOCK, P.PROD_SALE, S.SALE_NO, S.SALE_TITLE "
-				+ "FROM PROD P "
-				+ "INNER JOIN SALEDETAIL SD ON (P.PROD_ID = SD.PROD_ID) "
-				+ "INNER JOIN SALE S ON (S.SALE_NO = SD.SALE_NO) "
-				+ "ORDER BY 3 DESC";
+		String sql = " SELECT P.PROD_NAME, P.PROD_TOTALSTOCK, P.PROD_SALE, S.SALE_NO, S.SALE_TITLE "
+				+ " FROM PROD P "
+				+ " INNER JOIN SALEDETAIL SD ON (P.PROD_ID = SD.PROD_ID) "
+				+ " INNER JOIN SALE S ON (S.SALE_NO = SD.SALE_NO) "
+				+ " ORDER BY 3 DESC";
 		return jdbc.selectList(sql);
 	}
 	
 	public List<Map<String, Object>> searchasc() {   // 가격오름차순검색(다중행 (조건))  
-		String sql = "SELECT P.PROD_NAME, P.PROD_TOTALSTOCK, P.PROD_SALE, S.SALE_NO, S.SALE_TITLE "
-				+ "FROM PROD P "
-				+ "INNER JOIN SALEDETAIL SD ON (P.PROD_ID = SD.PROD_ID) "
-				+ "INNER JOIN SALE S ON (S.SALE_NO = SD.SALE_NO) "
-				+ "ORDER BY 3 ASC";
+		String sql = " SELECT P.PROD_NAME, P.PROD_TOTALSTOCK, P.PROD_SALE, S.SALE_NO, S.SALE_TITLE "
+				+ " FROM PROD P "
+				+ " INNER JOIN SALEDETAIL SD ON (P.PROD_ID = SD.PROD_ID) "
+				+ " INNER JOIN SALE S ON (S.SALE_NO = SD.SALE_NO) "
+				+ " ORDER BY 3 ASC";
 		return jdbc.selectList(sql);
 	}
 	
@@ -126,12 +126,12 @@ public class SelectProdDao {
 	
 	
 	public List<Map<String, Object>> searchcategory(String input) {   // 카테고리별 검색(다중행 (조건))  
-		String sql = "select p.prod_name, p.prod_totalstock, p.prod_sale, s.sale_no, s.sale_title "
-				+ "from lprod l "
-				+ "inner join prod p on (l.lprod_gu = p.lprod_gu)"
-				+ "inner join saledetail sd on (sd.prod_id = p.prod_id) "
-				+ "inner join sale s on (s.sale_no = sd.sale_no)"
-				+ "where l.lprod_id = ?";
+		String sql = " select p.prod_name, p.prod_totalstock, p.prod_sale, s.sale_no, s.sale_title "
+				+ " from lprod l "
+				+ " inner join prod p on (l.lprod_gu = p.lprod_gu)"
+				+ " inner join saledetail sd on (sd.prod_id = p.prod_id) "
+				+ " inner join sale s on (s.sale_no = sd.sale_no)"
+				+ " where l.lprod_id = ?";
 		List<Object> param = new ArrayList<>();
 		param.add(input);    // ★  ? 와 % 이거 어떻게 해야 잘했다고 소문나냐
 		return jdbc.selectList(sql,param);
