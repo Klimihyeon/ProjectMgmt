@@ -48,6 +48,7 @@ public class Controller {
 				case View.JOIN: view = userService.join(); break;
 				case View.BOARD_LIST: view = boardService.boardList(); break;
 				case View.MAIN : view = mainScreen(); break; // 로그인 후 첫화면
+				
 				case View.SEARCHSCREEN : view = selectProdService.searchscreen(); break; // 1. 상품조회
 				case View.DELMEM : view = userService.delete(); break;
 				case View.CART_LIST: view = cartService.cartList(); break;
@@ -66,9 +67,8 @@ public class Controller {
 				case View.ORDERLIST : view = orderService.selectorderdetail(); break;
 				case View.ADD_CART : view = selectProdService.addcart(); break;
 				case View.ORDERMAIN : view = orderService.selectorderdetail(); break;
-			
-			
-			
+				
+
 			}
 		}
 	}
@@ -100,7 +100,26 @@ public class Controller {
 
 		int input = ScanUtil.nextInt();
 			switch (input) {
-			case 1: return View.MAIN;
+			case 1: return View.SEARCHSCREEN;
+			case 2: return View.CART_LIST; 
+			case 3: return View.USERINFO;
+			case 0: {
+				System.out.println("프로그램이 종료되었습니다.");
+				System.exit(0);
+		}
+		}
+		return View.SEARCHSCREEN;
+	}
+	
+	private int s_mainScreen() { // 메인메뉴
+		System.out.println("--------------------------------------");
+		System.out.println("1.상품조회 \t2.장바구니\t3.내정보");
+		System.out.println("--------------------------------------");
+		System.out.print("번호 입력>");
+
+		int input = ScanUtil.nextInt();
+			switch (input) {
+			case 1: return View.SEARCHSCREEN;
 			case 2: return View.CART_LIST; 
 			case 3: return View.USERINFO;
 			case 0: {
