@@ -26,9 +26,9 @@ public class BoardService {
 		System.out.println("=======================================");
 		System.out.println("번호\t제목\t작성자\t작성일");
 		System.out.println("---------------------------------------");
+		System.out.println("------오늘의 최저가!! 핫딜, 주문마감임박------");
 		for(Map<String, Object> board : boardList){
-			System.out.println(board.get("PROD_id")
-					+ "\t" + board.get("PROD_NAME")
+			System.out.println(board.get("PROD_NAME")
 					+ "\t" + board.get("PROD_SALE"));
 		}
 		System.out.println("=======================================");
@@ -38,7 +38,7 @@ public class BoardService {
 		int input = ScanUtil.nextInt();
 		switch (input) {
 		case 1:
-			break;
+			return View.SEARCHSCREEN;
 		case 2:
 			return View.CART_LIST;
 		}

@@ -272,7 +272,7 @@ public int choosenumber(){   // 게시글(SALE_NO)의 속한 상품 출력
 				return View.ADDCART;
 			}
 		}
-		case 2: return View.SEARCHPROD;
+		case 2: return View.MAIN;
 	} 
 		return View.CHOOSENUMBER;
 }
