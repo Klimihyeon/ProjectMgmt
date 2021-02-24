@@ -101,7 +101,6 @@ public class OrderService {
 			System.out.println("cart(prodid, cartqty) -> list,hm 이동완료");
 			System.out.println(templi);
 			System.out.println(temphm);
-			aaa
 			
 			
 			int stock = orderDao.getstock(); // 주문수량
