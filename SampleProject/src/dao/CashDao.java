@@ -43,7 +43,7 @@ public class CashDao {
 	}
 	
 	
-	public static void chargecash(int membercash) {
+	public void chargecash(int membercash) {
 		String sql = "UPDATE MEMBER SET MEM_CASH = MEM_CASH + ?  WHERE MEM_ID = ?";
 		
 		List<Object> param = new ArrayList<>();

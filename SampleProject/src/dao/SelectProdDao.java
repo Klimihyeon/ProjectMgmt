@@ -16,7 +16,6 @@ public class SelectProdDao {
 			instance = new SelectProdDao();
 		}
 		return instance;
-		
 	}
 	
 	ScanUtil su = new ScanUtil();
@@ -63,7 +62,7 @@ public class SelectProdDao {
 		String sql = " SELECT P.PROD_ID, P.PROD_NAME, P.PROD_SALE,  AVG(R.RATING)"
 				+ " FROM PROD P INNER JOIN REVIEW R ON P.PROD_ID = R.PROD_ID"
 				+ " INNER JOIN MEMBER M ON R.MEM_ID = M.MEM_ID"
-				+ " GROUP BY P.PROD_ID"
+				+ " GROUP BY P.PROD_ID, P.PROD_NAME, P.PROD_SALE"
 				+ " ORDER BY 2 DESC"; // TEST 		
 		return jdbc.selectList(sql);
 	}
@@ -89,6 +88,7 @@ public class SelectProdDao {
 				+ " FROM PROD P "
 				+ " INNER JOIN SALEDETAIL SD ON (P.PROD_ID = SD.PROD_ID) "
 				+ " INNER JOIN SALE S ON (S.SALE_NO = SD.SALE_NO) "
+				+ " INNER JOIN LPROD L ON (L.LPROD_GU = P.LPROD_GU) "
 				+ " WHERE SALE_TITLE LIKE '%'||?||'%'";  // ★시발 이렇게 해야함
 		List<Object> param = new ArrayList<>();
 		param.add(input);    // ★  해결!
@@ -126,7 +126,7 @@ public class SelectProdDao {
 	
 	
 	public List<Map<String, Object>> searchcategory(String input) {   // 카테고리별 검색(다중행 (조건))  
-		String sql = " select p.prod_name, p.prod_totalstock, p.prod_sale, s.sale_no, s.sale_title "
+		String sql = " select p.prod_name, p.prod_totalstock, p.prod_sale, s.sale_no, s.sale_title, l.lprod_nm "
 				+ " from lprod l "
 				+ " inner join prod p on (l.lprod_gu = p.lprod_gu)"
 				+ " inner join saledetail sd on (sd.prod_id = p.prod_id) "

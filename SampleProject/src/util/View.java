@@ -25,6 +25,14 @@ public class View {
 	public static final int ADMINORDERSELEC = 922;	
 	public static final int ADMINORDERDELIVER = 923;	
 	
+	//admin anal
+	public static final int ADMINANALYSIS = 930;
+	public static final int ADMINANALYSISDAYMAIN = 931;
+	public static final int ADMINANALYSISMONTH = 932;
+	public static final int ADMINANALYSISYEAR = 933;
+	public static final int ADMINANALYSISAGE = 934; 
+	public static final int ADMINANALYSISSEX = 935;
+	
 	////user
 	//login ~ home
 	public static final int HOME = 0;
@@ -39,7 +47,6 @@ public class View {
 	public static final int MAIN = 7; 
 	public static final int ADMINMAIN = 8;
 	
-
 	//user prod main
 	public static final int SEARCHSCREEN = 11; // 상품조회화면(추천페이지 뜸
 	public static final int BOARD_LIST = 12;
@@ -57,7 +64,8 @@ public class View {
 	//order
 	public static final int ORDERMAIN = 50;
 	public static final int ORDERLIST = 51;
-	
+	public static final int SELECTORDER = 52;
+	public static final int SELECTORDERDETAIL = 53;
 	
 	//cash
 	public static final int CASHMAIN = 60;
@@ -68,20 +76,13 @@ public class View {
 
 	
 	//my info
-	public static final int MYINFO = 63; // 상품조회화면(추천페이지 뜸
-
-
-}
+	public static final int MYINFO = 63; 
+	public static final int CHOICEREVIEW = 64;
+	public static final int MANAGEREVIEW = 65;
+	public static final int WRITEREVIEW = 66;
+	public static final int MYREVIEW = 67;
 	
-	/*
-	 * public static final int SEARCHPROD = 1; // 1. 상품검색 public static final int
-	 * CHOOSENUMBER = 2; // 2. 글번호입력
-	 * 
-	 * 
-	 * 
-	 * public static final int SERCHNAME=1; // 1. 이름검색 public static final int
-	 * SERCHCATEGORY=2; // 2.카테고리별 public static final int SERCHRATE=3; // 3.별점순
-	 * public static final int SERCHDESC=4; // 4.가격내림차순 public static final int
-	 * SERCHASC=5; // 5.가격오름차순
-	 */	
-
+	//notice
+	public static final int SELECTNOTICEALL = 70;
+	public static final int SELECTNOTICEDETAIL = 71;
+}

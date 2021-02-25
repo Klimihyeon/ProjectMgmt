@@ -39,7 +39,7 @@ public class CartService {
 		}
 	
 		System.out.println("=======================================");
-		System.out.println("1.결제\t2.장바구니 물품삭제\t3.장보러가기");
+		System.out.println("1.결제 \t 2.장바구니 물품삭제 \t 3.장보러가기");
 		System.out.print("입력>");
 		
 		int input = ScanUtil.nextInt();

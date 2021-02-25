@@ -165,22 +165,27 @@ public class UserService {
 			+ "\t" + userList.get("MEM_CASH"));
 
 			System.out.println("========================================================================================================================");
-		System.out.println("1.회원정보수정 \t 2.캐쉬충전 \t 3.주문목록확인");
-		System.out.print("입력>");
-		
-		int input = ScanUtil.nextInt();
-		switch (input) {
-		case 1:
-			return View.USERUPDATE;			
-
-		case 2:
-			return View.CASHCHARGE;
-
-			
-		}
-		
-		return View.BOARD_LIST;
-	}
+		      System.out.println("1.회원정보수정 \t 2.캐쉬충전 \t 3.주문목록확인 \t 4.리뷰관리 \t 5.알림확인 \t 0.뒤로");
+		      System.out.print("입력>");
+		      
+		      int input = ScanUtil.nextInt();
+		      switch (input) {
+		      case 1:
+		         return View.USERUPDATE;         
+		      case 2:
+		         return View.CASHMAIN;
+		      case 3:
+		         return View.SELECTORDER;
+		      case 4:
+		         return View.CHOICEREVIEW;
+		      case 5:
+		         return View.SELECTNOTICEALL;
+		      case 0:
+		         return View.MAIN;
+		      }
+		      
+		      return View.BOARD_LIST;
+		   }
 	
 	
 	boolean regexid(String str){

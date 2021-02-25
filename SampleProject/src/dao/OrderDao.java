@@ -26,14 +26,14 @@ public class OrderDao {
 
 	
 	public List<Map<String, Object>> selectorderdetail() {
-		String sql = " SELECT CD.CARTDETAIL_NO, M.MEM_NAME, M.MEM_ADD1\r\n"
-				+ ",M.MEM_ADD2, M.MEM_HP, M.MEM_CASH, P.PROD_NAME, P.PROD_SALE, CD.CART_QTY\r\n"
-				+ " FROM CARTDETAIL CD, CART C, MEMBER M, PROD P\r\n"
-				+ " WHERE CD.CART_ID = C.CART_ID AND M.MEM_ID = C.MEM_ID\r\n"
-				+ " AND CD.PROD_ID = P.PROD_ID AND C.MEM_ID = '1'";
+		String sql = " SELECT CD.CARTDETAIL_NO, M.MEM_NAME, M.MEM_ADD1, "
+				+ " M.MEM_ADD2, M.MEM_HP, M.MEM_CASH, P.PROD_NAME, P.PROD_SALE, CD.CART_QTY "
+				+ " FROM CARTDETAIL CD,  MEMBER M, CART C, PROD P "
+				+ " WHERE  CD.CART_ID(+) = C.CART_ID AND M.MEM_ID  = C.MEM_ID "
+				+ " AND P.PROD_ID = CD.PROD_ID AND C.MEM_ID = ?";
 		List<Object> param = new ArrayList<>();
 		param.add(Controller.LoginUser.get("MEM_ID").toString());
-		return jdbc.selectList(sql);
+		return jdbc.selectList(sql,param);
 
 	}
 	
@@ -85,47 +85,33 @@ public class OrderDao {
 
 	
 
-	public int getstock() {
-		
-		String sql = " SELECT CART_QTY"
-				+ " FROM CARTDETAIL CD INNER JOIN CART C ON(C.CART_ID = CD.CART_ID)"
-				+ " INNER JOIN MEMBER M ON(M.MEM_ID = C.MEM_ID"
-				+ " AND M.MEM_ID = ?)";
-                  
-                   
-		List<Object> param = new ArrayList<>();
-		param.add(Controller.LoginUser.get("MEM_ID").toString());
-		Map<String, Object> map = jdbc.selectOne(sql, param);
-		System.out.println("map : " + map);
-		
-		int a = Integer.parseInt(String.valueOf(map.get("CART_QTY")));
-		return a;
-	}
 
 
-	public void order1(int stock, int cash) {
-	      
-	      String sqlstock = "UPDATE PROD SET PROD_TOTALSTOCK = (PROD_TOTALSTOCK - ?)  WHERE PROD_ID = 'P101000001'";
-	      
-	      List<Object> paramstock = new ArrayList<>();
-	      paramstock.add(stock);
-	      
-	      int updatestock = jdbc.update(sqlstock, paramstock);
-	      System.out.println(updatestock);
+	public int minusstock(int cartqty, String prodid) {
+	      // 재고 빼기
+	      String sql = "UPDATE PROD "
+	      		+ " SET PROD_TOTALSTOCK = (PROD_TOTALSTOCK - ?)  "
+	      		+ " WHERE PROD_ID = ?";
+	      List<Object> param = new ArrayList<>();
+//	      paramstock.add(1);
+//	      param.add("P101000010");
+	      param.add(cartqty);
+	      param.add(prodid);
+	      return jdbc.update(sql,param);
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	public void order2(int stock, int cash) {
-	      String sqlcash = "UPDATE PROD SET PROD_TOTALSTOCK = (PROD_TOTALSTOCK - ?)  WHERE PROD_ID = 'P101000001'";
-	      
-	      List<Object> paramcash = new ArrayList<>();
-	      paramcash.add(cash);
-	      
-	      int updatecash = jdbc.update(sqlcash, paramcash);
-	      System.out.println(updatecash);
+	public int minuscash(int prodsale) {
+		// 캐쉬 빼기
+		String sql = "UPDATE MEMBER "
+				+ " SET MEM_CASH = (MEM_CASH - ?)  "
+				+ " WHERE MEM_ID = ?";
+	      List<Object> param = new ArrayList<>();
+	      param.add(prodsale);
+	      param.add(Controller.LoginUser.get("MEM_ID").toString());
+	      return jdbc.update(sql, param);
 	}
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	      
-	     //
-	public int order3() { //
+	
+	public int order3() { // 상품 주문시 cart -> order (정보 넣기)
 	      String sqlorder = "INSERT INTO ORDER1(ORDER1_NO, MEM_ID, ORDER1_STATUS, ORDER1_COST) "
 	      		+ " VALUES(CONCAT(TO_CHAR(SYSDATE,'YYMMDDHHMISS'),?), ?  , '결제완료', ?)";
 	      List<Object> paramorder = new ArrayList<>();
@@ -141,31 +127,29 @@ public class OrderDao {
 	      paramorder.add(Controller.LoginUser.get("MEM_ID").toString());
 	 return jdbc.selectList(sql,paramorder);
 	}
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	      
-	public void order4(int stock, int cash) {  
-	String sqlorderdetail = "INSERT INTO ORDERDETAIL(ORDERDETAIL_NO, ORDER1_NO, PROD_ID, ORDERDETAIL_QTY) "
-	                     + " VALUES(ORDERDETAIL_SEQ.NEXTVAL, (SELECT O.ORDER1_NO FROM ORDER1 O WHERE MEM_ID = ?), "
-	                     + " (SELECT P.PROD_ID FROM PROD P INNER JOIN CARTDETAIL CD ON(P.PROD_ID = CD.PROD_ID)), ?) ";
-
-	      List<Object> paramorderdetail = new ArrayList<>();
-	      paramorderdetail.add(Controller.LoginUser.get("MEM_ID").toString());
-	      paramorderdetail.add(stock);
-	      
-	      int updateorderdetail = jdbc.update(sqlorderdetail, paramorderdetail);
-	      System.out.println(updateorderdetail);
-	}
-
-	public int test(String str1, String str2) { 
-		String sql = "INSERT INTO ORDERDETAIL(ORDERDETAIL_NO, ORDER1_NO, PROD_ID, ORDERDETAIL_QTY) VALUES(ORDERDETAIL_SEQ.NEXTVAL, , ?, ?)";
+	
+	public int test2(String str2, int in1) {  // 상품 주문시 cartdetail -> orderdetail (정보 넣기)
+		String sql = "INSERT INTO ORDERDETAIL(ORDERDETAIL_NO, ORDER1_NO, PROD_ID, ORDERDETAIL_QTY) "
+				+ " VALUES(ORDERDETAIL_SEQ.NEXTVAL, (select max(order1_no)  from order1  where mem_id = ?) , ?, ?)";
 		List<Object> param = new ArrayList<>();
-		param.add(str1);
+//		param.add("210224034928cdw34"); // order1no
+		param.add(Controller.LoginUser.get("MEM_ID").toString());
+//		param.add("P101000010"); // prodid
+//		param.add(1); // qty
+		 
+//		param.add(str1);
 		param.add(str2);
+		param.add(in1);
 		return jdbc.update(sql, param);
 	}
 	
-	
-	
-	   }
+	public  Map<String, Object> selectordernoone () {  // 로그인멤버의 가장 최근 주문번호 조회 
+		String sql = "select max(order1_no) from order1 where mem_id = ?";
+		List<Object> param = new ArrayList<>();
+		param.add(Controller.LoginUser.get("MEM_ID").toString());
+		return jdbc.selectOne(sql, param);
+	}
+   }
 
 
 	

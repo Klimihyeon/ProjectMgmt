@@ -2,11 +2,16 @@ package controller;
 
 import java.util.Map;
 
+import dao.AdminOrderDao;
+import service.AdminOrderService;
 import service.AdminService;
 import service.BoardService;
 import service.CartService;
 import service.CashService;
+import service.NoticeService;
 import service.OrderService;
+import service.ReviewService;
+import service.SelectOrderService;
 import service.SelectProdService;
 import service.UserService;
 import util.ScanUtil;
@@ -30,14 +35,32 @@ public class Controller {
 	}
 	
 	public static Map<String, Object> LoginUser; //로그인
-	
+	//user
 	private UserService userService = UserService.getInstance();
-	private BoardService boardService = BoardService.getInstance();
+
+	//cart
 	private CartService cartService = CartService.getInstance();
+
+	//board
+	private BoardService boardService = BoardService.getInstance();
+	
+	//prod
 	private SelectProdService selectProdService = SelectProdService.getInstance();
+	//cash
 	private CashService cashService = CashService.getInstance();
+	//order
 	private OrderService orderService = OrderService.getInstance();
+	private AdminOrderService adminOrderService = AdminOrderService.getInstance();
+	private AdminOrderDao adminOrderDao = AdminOrderDao.getInstance();
+	private SelectOrderService selectOrderService = SelectOrderService.getInstance();
+	//admin
 	private AdminService adminService = AdminService.getInstance();
+	//review
+	private ReviewService reviewService = ReviewService.getInstance();
+	//notice
+	private NoticeService noticeService = NoticeService.getInstance();
+	
+	
 	
 	private void start() {
 		int view = View.HOME;
@@ -91,7 +114,32 @@ public class Controller {
 			case View.CASHMAIN : view = cashService.selectorderdetail(); break;
 			case View.ORDERLIST : view = orderService.selectorderdetail(); break;
 			case View.ORDERMAIN : view = orderService.selectorderdetail(); break;
+			case View.SELECTORDER : view = selectOrderService.selectorder(); break;
+			case View.SELECTORDERDETAIL : view = selectOrderService.selectorderdetail(); break;
+			
+			//review
+			case View.MANAGEREVIEW : view = reviewService.ManageReview(); break;
+			case View.WRITEREVIEW : view = reviewService.WriteReview(); break;
+			case View.MYREVIEW : view = reviewService.MyReview(); break;
+			
+			//notice 
+			case View.SELECTNOTICEALL : view = noticeService.selectnotice(); break;
+			case View.SELECTNOTICEDETAIL : view = noticeService.selectnoticedetail();  break;
+			
+			// Admin order
+			case View.ADMINORDERMAIN : view =  adminOrderService.adminordermain(); break;
+			case View.ADMINORDERINFO	 : view = adminOrderService.adminSelectOrderdetail(); break;
+			case View.ADMINORDERSELEC	: view = adminOrderService.adminorderselect(); break;
+			case View.ADMINORDERDELIVER : view = adminOrderService.adminorderdeliver(); break;
 				
+			//Admin analys
+			case View.ADMINANALYSIS : view = adminOrderService.adminanalysis(); break;
+			case View.ADMINANALYSISDAYMAIN : view = adminOrderService.adminanalysisday(); break;
+			case View.ADMINANALYSISMONTH : view = adminOrderService.adminanalysismonth(); break;
+			case View.ADMINANALYSISYEAR : view = adminOrderService.adminanalysisyear(); break;
+			case View.ADMINANALYSISAGE : view = adminOrderService.adminanalysisage(); break;
+//			case View.ADMINANALYSISSEX : view = adminOrderService.adminanalysissex(); break;
+
 			}
 		}
 	}

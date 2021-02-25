@@ -35,7 +35,7 @@ public class AdminService {
 		
 		public int mainScreen() { // 메인메뉴
 			System.out.println("---------------------------------------------------");
-			System.out.println("1.상품조회 \t 2.상품메뉴 \t 3.유저관리 \t 4.결재관리 \t 5.로그아웃");
+			System.out.println("1.상품조회 \t 2.상품메뉴 \t 3.유저관리 \t 4.결재관리 \t 0.로그아웃");
 			System.out.println("---------------------------------------------------");
 			System.out.print("번호 입력>");
 
@@ -45,14 +45,14 @@ public class AdminService {
 				case 2: return View.ADMINPRODMAIN; 
 				case 3: return View.ADMINUSERMAIN;
 				case 4: return View.ADMINORDERMAIN;
-				case 5:	return View.HOME;
+				case 0:	return View.HOME;
 			}
 			return View.SEARCHSCREEN;
 		}
 		public int AUserScreen() { // 메인메뉴
 			System.out.println("---------------------------------------------------");
 			System.out.println("--잊어버리신거 같아서 말하는데 손님은 왕입니다.--");
-			System.out.println("1.전체유저조회 \t 2.유저세부검색 \t 3.유저삭제 \t 4.뒤로가기 ");
+			System.out.println("1.전체유저조회 \t 2.유저세부검색 \t 3.유저삭제 \t 0.뒤로가기 ");
 			System.out.println("---------------------------------------------------");
 			System.out.print("번호 입력>");
 
@@ -61,7 +61,7 @@ public class AdminService {
 				case 1: return View.ADMINUSER;
 				case 2: return View.ADMINUSERINFO; 
 				case 3: return View.ADMINUSERDEL;
-				case 4:	return View.ADMINMAIN;
+				case 0:	return View.ADMINMAIN;
 
 				
 			}
@@ -145,7 +145,7 @@ public class AdminService {
 		public int AProdScreen() { // 메인메뉴
 			System.out.println("---------------------------------------------------");
 			System.out.println("--좋은 제품을 싸게사서 비싸게 팔자.--");
-			System.out.println("1.전체상품조회 \t 2.상품세부검색 \t 3.상품등록 \t 4.상품업데이트\t 5.상품삭제 \t6.뒤로가기");
+			System.out.println("1.전체상품조회 \t 2.상품세부검색 \t 3.상품등록 \t 4.상품업데이트\t 5.상품삭제 \t0.뒤로가기");
 			System.out.println("---------------------------------------------------");
 			System.out.print("번호 입력>");
 
@@ -156,7 +156,7 @@ public class AdminService {
 				case 3: return View.ADMINPRODIN;
 				case 4:	return View.ADMINPRODUP;
 				case 5:	return View.ADMINPRODDEL;
-				case 6:	return View.ADMINMAIN;
+				case 0:	return View.ADMINMAIN;
 			}
 			return View.ADMINMAIN;
 		}
@@ -166,7 +166,7 @@ public class AdminService {
 			
 			List<Map<String, Object>> prodList = adminDao.prodList();
 			System.out.println("========================================================================================================================");
-			System.out.println("  상품ID\t\t상품구분\t상품명\t\t상품가격\t수량");
+			System.out.println("  상품ID \t \t 상품구분 \t 상품명 \t \t 상품가격 \t 수량");
 			
 			for(Map<String, Object> prod : prodList) {
 				System.out.println(prod.get("A")
@@ -187,7 +187,7 @@ public class AdminService {
 			templi = new ArrayList<>();
 			List<String> temp = new ArrayList<>(); // [콘솔창의 글번호]와 상품ID를 연동할 리스트 -> 나중에 소비자가 게시글 선택시 상품ID를 가져와야 하기에
 			System.out.println("====================================================");
-			System.out.println("글번호\t\t제목\t\t");
+			System.out.println("글번호 \t \t 제목 \t \t");
 			System.out.println("----------------------------------------------------");
 			out : for(int i=0; i<adminDao.selectList(input).size(); i++){
 				temphm = new HashMap<>();
@@ -203,7 +203,7 @@ public class AdminService {
 				templi.add(temphm);
 				System.out.println();
 			}
-			System.out.println("1. 글번호 선택 2. 상품입력 3. 상품수정 4. 상품삭제 5. 뒤로가기");
+			System.out.println("1. 글번호 선택 \t 2. 상품입력 \t 3. 상품수정 \t 4. 상품삭제 \t 0. 뒤로가기");
 				switch (ScanUtil.nextInt()) {
 				case 1:{
 					System.out.println("글번호를 선택해주세요");  
@@ -213,7 +213,7 @@ public class AdminService {
 				case 2: return View.ADMINPRODIN;
 				case 3: return View.ADMINPRODUP;
 				case 4: return View.ADMINPRODDEL;
-				case 5: return View.ADMINPRODMAIN;
+				case 0: return View.ADMINPRODMAIN;
 				}
 				return View.ADMINPRODMAIN;
 			}

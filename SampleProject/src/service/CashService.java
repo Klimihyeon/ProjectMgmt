@@ -46,7 +46,7 @@ public class CashService {
 		System.out.println("=============보유캐쉬정보=================");
 		System.out.println("현재 보유 캐쉬 : " +CashInfo);
 		
-		System.out.println("1.캐쉬 충전\t2.돌아가기");
+		System.out.println("1.캐쉬 충전 \t 0.돌아가기");
 		System.out.println("입력>");
 		
 		int input = ScanUtil.nextInt();
@@ -62,7 +62,7 @@ public class CashService {
 			System.out.println(tongjang + "계좌에서 "+cashadd + "원 만큼 인출합니다.");
 			System.out.println("캐쉬충전이 완료되었습니다.");
 			break;
-		case 2 :
+		case 0 :
 			return View.USERINFO;
 		}
 		

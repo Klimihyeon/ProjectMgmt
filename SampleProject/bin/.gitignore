@@ -1,4 +1,4 @@
-/util/
 /service/
-/controller/
 /dao/
+/controller/
+/util/

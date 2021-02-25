@@ -6,6 +6,7 @@ import java.util.Map;
 import util.ScanUtil;
 import util.View;
 import dao.BoardDao;
+import dao.NoticeDao;
 
 public class BoardService {
 	
@@ -19,13 +20,15 @@ public class BoardService {
 	}
 	
 	private BoardDao boardDao = BoardDao.getInstance();
+	private NoticeDao noticeDao = NoticeDao.getInstance();
 	
 	public int boardList(){
 		List<Map<String, Object>> boardList = boardDao.selectBoardList();
-		
+		System.out.println("==========================🔔(+"+noticeDao.selectnoticenoread().size()+")=======");
 		System.out.println("=======================================");
 		System.out.println("-------------오늘의 핫딜!-------------");
 		System.out.println("제품\t\t\t가격");
+		
 		for(Map<String, Object> board : boardList){
 			System.out.println(board.get("PROD_NAME"));
 			System.out.print("\t" + "\t" + "\t");
@@ -43,7 +46,7 @@ public class BoardService {
 			return View.CARTLIST;			
 		case 3:
 			return View.USERINFO;			
-		case 4:
+		case 0:
 			return View.HOME;
 			
 		}
