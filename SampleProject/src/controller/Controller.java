@@ -4,6 +4,7 @@ import java.util.Map;
 
 import dao.AdminOrderDao;
 import service.AdminOrderService;
+import service.AdminReviewService;
 import service.AdminService;
 import service.BoardService;
 import service.CartService;
@@ -56,8 +57,9 @@ public class Controller {
 	//admin
 	private AdminService adminService = AdminService.getInstance();
 	//review
-	private ReviewService reviewService = ReviewService.getInstance();
-	//notice
+		private ReviewService reviewService = ReviewService.getInstance();
+		private AdminReviewService adminreviewService = AdminReviewService.getInstance();
+		//notice
 	private NoticeService noticeService = NoticeService.getInstance();
 	
 	
@@ -89,7 +91,7 @@ public class Controller {
 			case View.ADMINPRODDEL : view = adminService.deleteProd(); break;
 			case View.ADMINPRODUP : view = adminService.updateProd(); break;
 			case View.ACHOOSENUMBER : view = adminService.choosenumber(); break;
-			
+			case View.REVIEWALL : view = adminreviewService.ReviewAll(); break; 
 //			case View.ADMINORDER : view = adminService.; break;
 			
 			//prod
@@ -133,11 +135,11 @@ public class Controller {
 			case View.ADMINORDERDELIVER : view = adminOrderService.adminorderdeliver(); break;
 				
 			//Admin analys
-			case View.ADMINANALYSIS : view = adminOrderService.adminanalysis(); break;
+			case View.ADMINANALYSIS : view = adminOrderService.adminordermain(); break;
 			case View.ADMINANALYSISDAYMAIN : view = adminOrderService.adminanalysisday(); break;
 			case View.ADMINANALYSISMONTH : view = adminOrderService.adminanalysismonth(); break;
 			case View.ADMINANALYSISYEAR : view = adminOrderService.adminanalysisyear(); break;
-			case View.ADMINANALYSISAGE : view = adminOrderService.adminanalysisage(); break;
+//			case View.ADMINANALYSISAGE : view = adminOrderService.adminanalysisage(); break;
 //			case View.ADMINANALYSISSEX : view = adminOrderService.adminanalysissex(); break;
 
 			}

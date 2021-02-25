@@ -23,12 +23,13 @@ public class ReviewDao {
 	private static JDBCUtil jdbc = JDBCUtil.getInstance();
 	
 	public List<Map<String, Object>> ChoiceReview() {
-		String sql = "SELECT OD.PROD_ID, (SELECT P.PROD_NAME FROM PROD P WHERE P.PROD_ID  = OD.PROD_ID) A , COUNT(OD.PROD_ID) "
-				+ " FROM ORDERDETAIL OD, ORDER1 O"
-				+ " WHERE OD.ORDER1_NO = O.ORDER1_NO"
+		String sql = "SELECT OD.PROD_ID"
+				+ " ,(SELECT P.PROD_NAME FROM PROD P WHERE P.PROD_ID  = OD.PROD_ID)AS A "
+				+ " ,COUNT(OD.PROD_ID)AS B "
+				+ " FROM ORDERDETAIL OD, ORDER1 O "
+				+ " WHERE OD.ORDER1_NO = O.ORDER1_NO "
 				+ " AND O.MEM_ID = ? "
-				+ " GROUP BY OD.PROD_ID, O.ORDER1_STATUS";
-
+				+ " GROUP BY OD.PROD_ID, O.ORDER1_STATUS ";
 		
 		List<Object> param = new ArrayList<>();
 		param.add(Controller.LoginUser.get("MEM_ID").toString());
@@ -39,8 +40,9 @@ public class ReviewDao {
 	
 
 	public List<Map<String, Object>> ReviewList() {
-		String sql = "SELECT R.REVIEW_NO A , (SELECT P.PROD_NAME FROM PROD P WHERE P.PROD_ID = R.PROD_ID ) B , "
-				+ " RATING C , CONTENT D "
+		String sql = "SELECT R.REVIEW_NO A "
+				+ ", (SELECT P.PROD_NAME FROM PROD P WHERE P.PROD_ID = R.PROD_ID ) B "
+				+ ", RATING C , CONTENT D "
 				+ " FROM REVIEW R "
 				+ " WHERE MEM_ID = ?";
 	

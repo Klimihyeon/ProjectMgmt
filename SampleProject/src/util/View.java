@@ -33,6 +33,9 @@ public class View {
 	public static final int ADMINANALYSISAGE = 934; 
 	public static final int ADMINANALYSISSEX = 935;
 	
+	//admin review
+	public static final int REVIEWALL = 936;  //(+)
+	
 	////user
 	//login ~ home
 	public static final int HOME = 0;
@@ -77,7 +80,6 @@ public class View {
 	
 	//my info
 	public static final int MYINFO = 63; 
-	public static final int CHOICEREVIEW = 64;
 	public static final int MANAGEREVIEW = 65;
 	public static final int WRITEREVIEW = 66;
 	public static final int MYREVIEW = 67;

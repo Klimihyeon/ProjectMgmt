@@ -177,7 +177,7 @@ public class UserService {
 		      case 3:
 		         return View.SELECTORDER;
 		      case 4:
-		         return View.CHOICEREVIEW;
+		         return View.MANAGEREVIEW;
 		      case 5:
 		         return View.SELECTNOTICEALL;
 		      case 0:

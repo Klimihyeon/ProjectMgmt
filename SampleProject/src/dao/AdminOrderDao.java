@@ -24,14 +24,13 @@ public class AdminOrderDao {
 			String sql = "SELECT ORDER1_NO, MEM_ID, ORDER1_STATUS, ORDER1_COST "
 					+ " FROM ORDER1 "
 					+ " ORDER BY 1 DESC";
-			List<Object> param = new ArrayList<>();
 			return jdbc.selectList(sql);
 		}
 
 	   public  List<Map<String, Object>> adminSelectDate() {  // 로그인멤버의 주문조회(order) 
-			String sql = "SELECT SUBSTR(ORDER1_NO,1,2)||'-'||SUBSTR(ORDER1_NO,3,2)||'-'||SUBSTR(ORDER1_NO,5,2) PRODDATE "
+			String sql = "SELECT SUBSTR(ORDER1_NO,1,2)||'-'||SUBSTR(ORDER1_NO,3,2)||'-'||SUBSTR(ORDER1_NO,5,2) PRODDATE ,ORDER1_NO, ORDER1_COST "
 					+ " FROM ORDER1 "
-					+ " ORDER BY 1 DESC";
+					+ " ORDER BY 2 DESC ";
 			List<Object> param = new ArrayList<>();
 			return jdbc.selectList(sql);
 		}
@@ -39,7 +38,7 @@ public class AdminOrderDao {
 	   public List<Map<String, Object>> adminSelectOrderdetail(String orderno) {
 		      String sql = "SELECT O.ORDER1_NO, O.ORDER1_COST, OD.PROD_ID, P.PROD_NAME, OD.ORDERDETAIL_QTY, P.PROD_SALE "
 		      		+ " FROM ORDER1 O "
-		      		+ " INNER JOIN ORDERDETAIL OD ON OD.ORDER1_NO = O.ORDER1_NO"
+		      		+ " INNER JOIN ORDERDETAIL OD ON OD.ORDER1_NO = O.ORDER1_NO "
 		      		+ " INNER JOIN PROD P ON P.PROD_ID = OD.PROD_ID "
 		      		+ " WHERE O.ORDER1_NO = ? ";
 		      List<Object> param = new ArrayList<>();
@@ -47,17 +46,17 @@ public class AdminOrderDao {
 		      return jdbc.selectList(sql, param);
 		   }
 	   
-	   public List<Map<String, Object>> analysismonth() {
+	   public List<Map<String, Object>> analysisyear() {
 	   String sql = "SELECT SUBSTR(ORDER1_NO,1,2) 기간, SUM(ORDER1_COST) 매출, COUNT(ORDER1_NO) 주문수, AVG(ORDER1_COST) 주문평균금액, ROUND(COUNT(O.ORDER1_NO)/30,2) 회원당주문수 "
 	   		+ " FROM ORDER1 O "
 	   		+ " GROUP BY SUBSTR(ORDER1_NO,1,2)";
 	      return jdbc.selectList(sql);
 	   }
 	   
-	   public List<Map<String, Object>> analysisyear() {
-		   String sql = "SELECT SUBSTR(ORDER1_NO,1,4) 기간, SUM(ORDER1_COST) 매출, COUNT(ORDER1_NO) 주문수, AVG(ORDER1_COST) 주문평균금액, ROUND(COUNT(O.ORDER1_NO)/30,2) 회원당주문수 "
-		   		+ " FROM ORDER1 O "
-		   		+ " GROUP BY SUBSTR(ORDER1_NO,1,4)";
+	   public List<Map<String, Object>> analysismonth() {
+		   String sql = "SELECT SUBSTR(ORDER1_NO,1,2) 연도, SUBSTR(ORDER1_NO,3,2) 개월, SUM(ORDER1_COST) 매출, COUNT(ORDER1_NO) 주문수, AVG(ORDER1_COST) 주문평균금액, ROUND(COUNT(O.ORDER1_NO)/30,2) 회원당주문수 "
+		   		+ " FROM ORDER1 O  "
+		   		+ " GROUP BY SUBSTR(ORDER1_NO,1,2),SUBSTR(ORDER1_NO,3,2)";
 		   List<Object> param = new ArrayList<>();
 		      return jdbc.selectList(sql);
 		   }
@@ -71,9 +70,9 @@ public class AdminOrderDao {
 	   public int modifydeliverstatus(String orderno, String status) {        // 배송상태변경 
 		      String sql = "UPDATE ORDER1 "
 		      		+ "SET ORDER1_STATUS = ?  "
-		      		+ "WHERE ORDER1_NO = ?";
-		      
+		      		+ "WHERE ORDER1_NO = ? ";
 		      List<Object> param = new ArrayList<>();
+		      param.add("구매확정");
 		      param.add(orderno);
 		    return jdbc.update(sql, param);		         
 		   }

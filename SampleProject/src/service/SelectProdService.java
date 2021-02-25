@@ -105,24 +105,22 @@ public int searchname() {
 	List<String> temp = new ArrayList<>(); // [콘솔창의 글번호]와 상품ID를 연동할 리스트 -> 나중에 소비자가 게시글 선택시 상품ID를 가져와야 하기에
 	System.out.println("=======================================");
 	System.out.println("글번호\t카테고리\t가격\t제목");
-	System.out.println("---------------------------------------");
+	System.out.println("---------------------------------------size : " + selectProdDao.selectList(input).size());
 	out : for(int i=0; i<selectProdDao.selectList(input).size(); i++){
 		temphm = new HashMap<>();
 		if(i!=0){// i=1이후부터 이전출력 게시물의 제목과 같으면 건너뛰기 (삼성특별전같은 경우 여러행으로 출력되서)
 			for(int j=0; j<i; j++){
-			if(selectProdDao.selectList(input).get(j).get("SALE_TITLE").toString().equals(selectProdDao.selectList(input).get(i).get("SALE_TITLE").toString())){
-				temphm.put("SALE_NO", selectProdDao.selectList(input).get(i).get("SALE_NO"));
-				templi.add(temphm);
-				continue out;
-			}
+				if(selectProdDao.selectList(input).get(j).get("SALE_TITLE").toString().equals(selectProdDao.selectList(input).get(i).get("SALE_TITLE").toString())){
+					temphm.put("SALE_NO", selectProdDao.selectList(input).get(i).get("SALE_NO"));
+					templi.add(temphm);
+					continue out;
+				}
 			}
 		}
 		System.out.print("["+i+"] ");
 		System.out.print("\t"+selectProdDao.selectList(input).get(i).get("LPROD_NM"));		
 		System.out.print("\t"+setcomma.Setcomma(selectProdDao.selectList(input).get(i).get("PROD_SALE").toString()));
 			System.out.print("\t"+selectProdDao.selectList(input).get(i).get("SALE_TITLE"));
-//			System.out.print("가격 : "+selectProdDao.selectList(input).get(i).get("PROD_SALE"));
-//			System.out.print("구매가능수량 : "+selectProdDao.selectList(input).get(i).get("PROD_TOTALSTOCK"));
 			temphm.put("SALE_NO", selectProdDao.selectList(input).get(i).get("SALE_NO")); // 0번글은 리스트 0번째이고 그에 들어간 hashmap에는 prod_id가 저장되어있다.			
 		templi.add(temphm);
 		System.out.println();

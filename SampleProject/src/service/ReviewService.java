@@ -35,7 +35,7 @@ public class ReviewService {
 
 				case 2: return View.MYREVIEW;
 
-				case 0: return View.MAIN;
+				case 0: return View.MANAGEREVIEW;
 
 				default:return View.MAIN;
 				}
@@ -72,9 +72,6 @@ public class ReviewService {
 			System.out.println("리뷰를 작성할 상품을  선택해주세요.");
 			int select = ScanUtil.nextInt();
 			String prod_id = templi1.get(select).get("prod").toString();
-			System.out.println(prod_id);
-			System.out.println("");
-			System.out.println("");
 			System.out.println("=======================================");
 			System.out.println("=======================================");
 			System.out.println("평점을 입력해주세요(1~5)");
@@ -122,7 +119,7 @@ public class ReviewService {
 		}
 
 		System.out.println("=======================================");
-		System.out.println("1.삭제 \t 2.돌아가기");
+		System.out.println("1.삭제 \t 0.돌아가기");
 		System.out.println("입력>");
 			int input3 = ScanUtil.nextInt();
 			switch (input3) {
@@ -133,9 +130,9 @@ public class ReviewService {
 			 	System.out.println("해당 리뷰가 삭제되었습니다.");
 			 	return View.MANAGEREVIEW;
 
-			case 2 : return View.MANAGEREVIEW;
+			case 0 : return View.MAIN;
 
-			default: return View.MANAGEREVIEW;
+			default: return View.MAIN;
 		}
 	
 	}
