@@ -26,19 +26,20 @@ public class CartService {
 		List<Map<String, Object>> cartList = cartDao.selectCartList();
 		
 		System.out.println("=======================================");
-		System.out.println("카트넘버\t카트ID\t수량\t제품");
+		System.out.println("카트넘버 \t 카트ID \t 수량 \t 상품이름 \t 상품가격");
 		System.out.println("---------------------------------------");
 		if(cartList.size() == 0) {
 			System.out.println("카트에 담긴 상품이 없습니다.");}
 		for(Map<String, Object> cart : cartList){
-			System.out.println(cart.get("CART_ID")
+			System.out.println(cart.get("CARTDETAIL_NO")
+					+ "\t" + cart.get("CART_ID")
 					+ "\t" + cart.get("CART_QTY")
 					+ "\t" + cart.get("PROD_NAME")
 					+ "\t" + cart.get("PROD_SALE"));	
 		}
 	
 		System.out.println("=======================================");
-		System.out.println("1.결재\t2.장바구니 물품삭제\t3.장보러가기");
+		System.out.println("1.결제\t2.장바구니 물품삭제\t3.장보러가기");
 		System.out.print("입력>");
 		
 		int input = ScanUtil.nextInt();
@@ -50,7 +51,7 @@ public class CartService {
 		case 3:
 			return View.MAIN;
 		}
-		return View.CART_LIST;
+		return View.CARTLIST;
 	}
 	
 	public List<Map<String, Object>> tempyeongjun(){ //임시 테스트
@@ -60,7 +61,7 @@ public class CartService {
 	
 	public int delete(){
 		Map<String, Object> param = new HashMap<>();
-		System.out.println("지우고 싶은 목록 버튼을 눌러주세요.");
+		System.out.println("지우고 싶은 목록의 숫자을 눌러주세요.");
 		int cartNo = ScanUtil.nextInt();	
 	
 		param.put("CARTDETAIL_NO", cartNo);
@@ -73,7 +74,7 @@ public class CartService {
 			System.out.println("장바구니 비우기 실패");
 		}
 		
-		return View.CART_LIST;         
+		return View.CARTLIST;         
 	}
 	
 	

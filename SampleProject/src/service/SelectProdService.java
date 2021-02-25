@@ -262,9 +262,7 @@ public int choosenumber(){   // 게시글(SALE_NO)의 속한 상품 출력
 			temphm2.put("PROD_ID",selectProdDao.selectSaleNo(stemp.toString()).get(i).get("PROD_ID"));
 			templi2.add(temphm2);
 		}
-		System.out.println("\n1. 장바구니에 담기  2.뒤로");
-		System.out.println(templi2);
-		System.out.println(temphm2);
+		System.out.println("\n1. 장바구니에 담기  \t2. 장바구니 바로가기 \t 3.상품검색뒤로가기");
 		switch (ScanUtil.nextInt()) {
 		case 1: {
 			if(selectProdDao.selectSaleNo(stemp.toString()).size()==1){
@@ -276,8 +274,8 @@ public int choosenumber(){   // 게시글(SALE_NO)의 속한 상품 출력
 				return View.ADDCART;
 			}
 		}
-		case 2: return View.SEARCHPROD;
-		case 3: return View.CARTLIST;
+		case 2: return View.CARTLIST;
+		case 3: return View.SEARCHPROD;
 	} 
 		return View.CHOOSENUMBER;
 }

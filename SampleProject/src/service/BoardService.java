@@ -32,7 +32,7 @@ public class BoardService {
 			System.out.println(board.get("PROD_SALE"));
 		}
 		System.out.println("=======================================");
-		System.out.println("1.상품조회\t 2.카트조회\t 0.로그아웃");
+		System.out.println("1.상품조회\t 2.카트조회\t 3.로그아웃");
 		System.out.print("입력>");
 		
 		int input = ScanUtil.nextInt();
@@ -40,9 +40,12 @@ public class BoardService {
 		case 1:
 			return View.SEARCHSCREEN;
 		case 2:
-			return View.CART_LIST;
+			return View.CARTLIST;			
+		case 3:
+			return View.HOME;
+			
 		}
-		return View.HOME;
+		return View.MAIN;
 	}
 	
 }

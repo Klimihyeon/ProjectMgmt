@@ -57,8 +57,15 @@ public class Controller {
 			case View.ADMINMAIN : view = adminService.mainScreen(); break; // 로그인 후 첫화면
 			case View.ADMINUSERMAIN : view = adminService.AUserScreen(); break; // 유저 관리
 			case View.ADMINUSER : view = adminService.AUserinfo(); break;
-			case View.ADMINUSERDEL : view = adminService.Admindelete(); break;
 			case View.ADMINUSERINFO : view = adminService.AdminUserinfo(); break;
+			case View.ADMINUSERDEL : view = adminService.AdminDelete(); break;
+			case View.ADMINPRODMAIN : view = adminService.AProdScreen(); break;
+			case View.ADMINPRODINFO : view = adminService.AprodList(); break;
+			case View.ADMINPRODSEAR : view = adminService.searchname(); break;
+			case View.ADMINPRODIN : view = adminService.insertProd(); break;
+			case View.ADMINPRODDEL : view = adminService.deleteProd(); break;
+			case View.ADMINPRODUP : view = adminService.updateProd(); break;
+			case View.ACHOOSENUMBER : view = adminService.choosenumber(); break;
 			
 //			case View.ADMINORDER : view = adminService.; break;
 			
@@ -75,7 +82,7 @@ public class Controller {
 			
 			//cart
 			
-			case View.CART_LIST: view = cartService.cartList(); break;
+			case View.CARTLIST: view = cartService.cartList(); break;
 			case View.ADDCART : view = selectProdService.addcart(); break; // 카트에상품추가
 			case View.DEL_CART : view = cartService.delete(); break;
 			

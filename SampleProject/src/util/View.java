@@ -14,6 +14,11 @@ public class View {
 	public static final int ADMINPRODINFO = 912;	
 	public static final int ADMINPRODIN = 913;	
 	public static final int ADMINPRODDEL= 914;	
+	public static final int ADMINPRODUP= 915;	
+	public static final int ADMINPRODSEAR= 916;	
+	public static final int ACHOOSENUMBER= 917;	
+	
+	
 	//admin order
 	public static final int ADMINORDERMAIN = 920;	
 	public static final int ADMINORDERINFO = 921;	
@@ -57,8 +62,7 @@ public class View {
 	//cash
 	public static final int CASHMAIN = 60;
 	//cart
-	public static final int CART_LIST = 91;
-	public static final int CARTLIST = 92; // 상품조회화면(추천페이지 뜸
+	public static final int CARTLIST = 91;
 	public static final int DEL_CART = 93;
 	public static final int ADD_CART = 94;
 

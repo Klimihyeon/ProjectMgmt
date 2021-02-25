@@ -36,7 +36,6 @@ public class OrderService {
 
 	
 		List<Map<String, Object>> orderList = orderDao.selectorderdetail();
-//		HashMap<String, Object> orderListhm = new HashMap<>();
 		System.out.println("======================================");
 		System.out.println("================주문번호================");
 		System.out.println("==============구매자 정보=================");
@@ -44,9 +43,7 @@ public class OrderService {
 		System.out.println("주     소 : " +orderList.get(0).get("MEM_ADD1"));
 		System.out.println("상세주소 : " +orderList.get(0).get("MEM_ADD2"));
 		System.out.println("휴대폰번호 : " +orderList.get(0).get("MEM_HP"));
-		System.out.println("캐쉬현황 : " +orderList.get(0).get("MEM_CASH")+"\n");
 		int count=0;
-		
 		for(Map<String, Object> order : orderList){
 			count++;
 			System.out.println("상 품 ["+count+"] : "+order.get("PROD_NAME"));
@@ -55,7 +52,9 @@ public class OrderService {
 			}
 		
 		System.out.println("총 금 액 : "+orderDao.ordercost().get(0).get("ORDERCOST").toString()+"원");
+		System.out.println("캐쉬현황 : " +orderList.get(0).get("MEM_CASH")+"\n");
 		String ordercost = orderDao.ordercost().get(0).get("ORDERCOST").toString();
+		System.out.println(ordercost);
 		System.out.println("=============구매 상품 정보================");
 		
 		System.out.println("1.배송지 변경\t2.캐쉬 충전\t3.주문\t0.돌아가기");
