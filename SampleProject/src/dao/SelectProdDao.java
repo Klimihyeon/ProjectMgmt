@@ -47,7 +47,7 @@ public class SelectProdDao {
 	public List<Map<String, Object>> selectrecommenddetail() {   // 다중행 (현재 첫화면 추천페이지 상세글 용도로 사용중)
 		String sql = "SELECT P.PROD_NAME, P.PROD_TOTALSTOCK, P.PROD_SALE, P.PROD_ID, S.SALE_TITLE, S.SALE_NO "
 				+ " FROM SALEDETAIL SD "
-				+ " INNER JOIN PROD P ON P.PROD_ID = SD.PROD_ID "
+				+ " INNER JOIN PROD P ON P.PROD_ID = SD.PROD_I "
 				+ " INNER JOIN SALE S ON S.SALE_NO = SD.SALE_NO "
 				+ " WHERE S.SALE_NO = ?"; 
 		List<Object> param = new ArrayList<>();
@@ -72,7 +72,7 @@ public class SelectProdDao {
 
 	
 	public List<Map<String, Object>> selectSaleNo(String input) {   // 입력한 게시글번호의 상품들 검색 (다중행) 
-		String sql = " SELECT P.PROD_NAME, P.PROD_TOTALSTOCK, P.PROD_SALE, P.PROD_ID, S.SALE_TITLE, S.SALE_NO, P.PROD_DETAIL"
+		String sql = " SELECT P.PROD_NAME, P.PROD_TOTALSTOCK, P.PROD_SALE, P.PROD_ID, S.SALE_TITLE, S.SALE_NO, P.PROD_DETAIL, P.PROD_INFO"
 				+ " FROM SALEDETAIL SD "
 				+ " INNER JOIN PROD P ON P.PROD_ID = SD.PROD_ID "
 				+ " INNER JOIN SALE S ON S.SALE_NO = SD.SALE_NO "

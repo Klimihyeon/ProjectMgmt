@@ -269,7 +269,7 @@ public int choosenumber(){   // 게시글(SALE_NO)의 속한 상품 출력
 		System.out.println("["+i+"]번 상품 ");
 			System.out.println("상    품   명 : "+selectProdDao.selectSaleNo(stemp.toString()).get(i).get("PROD_NAME"));
 			System.out.println("가          격 : "+selectProdDao.selectSaleNo(stemp.toString()).get(i).get("PROD_SALE"));
-			System.out.println("제          원 : "+selectProdDao.selectSaleNo(stemp.toString()).get(i).get("PROD_DETAIL"));
+			System.out.println("제          원 : "+selectProdDao.selectSaleNo(stemp.toString()).get(i).get("PROD_INFO"));
 			System.out.println("주문가능수량 : "+selectProdDao.selectSaleNo(stemp.toString()).get(i).get("PROD_TOTALSTOCK"));
 			temphm2.put("PROD_ID",selectProdDao.selectSaleNo(stemp.toString()).get(i).get("PROD_ID"));
 			templi2.add(temphm2);

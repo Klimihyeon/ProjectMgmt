@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import controller.Controller;
-import service.ReviewService;
 import util.JDBCUtil;
 
 public class ReviewDao {
@@ -18,7 +17,6 @@ public class ReviewDao {
 			}
 			return instance;
 		}
-
 	
 	private static JDBCUtil jdbc = JDBCUtil.getInstance();
 	
