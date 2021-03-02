@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import dao.NoticeDao;
 import util.JDBCUtil;
 import util.ScanUtil;
@@ -26,7 +27,7 @@ int snumber; //구분번호저장
 			return instance;
 		}
 	
-public int selectnotice() {//view.selectnotice
+public int selectnotice() {//view.selectnoticeall
 	System.out.println("==============================");
 	System.out.println("                           알                림                        ");
 	System.out.println("==============================");
@@ -41,7 +42,7 @@ public int selectnotice() {//view.selectnotice
 			temphm.put("NOTICE_NO", noticeDao.selectnoticeall().get(i).get("NOTICE_NO")); // 0번글은 리스트 0번째이고 그에 들어간 hashmap에는 prod_id가 저장되어있다.			
 		templi.add((temphm));
 	}
-	System.out.println("1. 읽기 2. 삭제 0. 뒤로");
+	System.out.println("1.읽기  2.삭제  0.뒤로");
 	int input = ScanUtil.nextInt();
 	switch (input) {
 	case 1 :
@@ -59,25 +60,24 @@ public int selectnotice() {//view.selectnotice
 	case 0:
 		return View.MAIN;
 	}
-	return 1;	
+	return View.SELECTNOTICEALL;	
 }
 
 public int selectnoticedetail() {
 	String noticeno = noticeDao.selectnoticeall().get(snumber).get("NOTICE_NO").toString(); //선택한 행의 noticeno
 	noticeDao.modifynotice(noticeno); // 선택알림의 상태를 읽음으로 변경
-	System.out.println("작성자"+noticeDao.selectnoticedetail(noticeno).get("NOTICE_SENDER"));
-	System.out.println("일     자"+noticeDao.selectnoticedetail(noticeno).get("NOTICE_DATE"));
-	System.out.println("제     목"+noticeDao.selectnoticedetail(noticeno).get("NOTICE_TITLE"));
-	System.out.println("내     용"+noticeDao.selectnoticedetail(noticeno).get("NOTICE_CONTENT"));
+	System.out.println("작  성  자 : "+noticeDao.selectnoticedetail(noticeno).get("NOTICE_SENDER"));
+	System.out.println("일      자 : "+noticeDao.selectnoticedetail(noticeno).get("NOTICE_DATE"));
+	System.out.println("제      목 : "+noticeDao.selectnoticedetail(noticeno).get("NOTICE_TITLE"));
+	System.out.println("내      용 : "+noticeDao.selectnoticedetail(noticeno).get("NOTICE_CONTENT"));
 	System.out.println("------------------------------------------------------------------------");
 	
 	System.out.println("1. 삭제 0. 뒤로");
 	int input = ScanUtil.nextInt();
 	switch (input) {
 	case 1 :
-		snumber = ScanUtil.nextInt(); 
+		 noticeDao.deletenotice(noticeno);
 		System.out.println("메시지를 삭제하였습니다.");
-		
 		return View.SELECTNOTICEALL; 
 	case 0:
 		return View.SELECTNOTICEALL;

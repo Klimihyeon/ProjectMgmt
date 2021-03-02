@@ -39,7 +39,7 @@ public class CartService {
 		}
 	
 		System.out.println("=======================================");
-		System.out.println("1.결제 \t 2.장바구니 물품삭제 \t 3.장보러가기");
+		System.out.println("1.결제 \t 2.장바구니 물품삭제 \t 3.장보러가기\t 4. 회원정보");
 		System.out.print("입력>");
 		
 		int input = ScanUtil.nextInt();
@@ -50,6 +50,8 @@ public class CartService {
 			return View.DEL_CART;
 		case 3:
 			return View.MAIN;
+		case 4:
+			return View.USERINFO;
 		}
 		return View.CARTLIST;
 	}

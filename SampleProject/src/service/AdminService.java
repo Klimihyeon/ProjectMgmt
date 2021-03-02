@@ -35,7 +35,7 @@ public class AdminService {
 		
 		public int mainScreen() { // 메인메뉴
 			System.out.println("---------------------------------------------------");
-			System.out.println("1.상품조회 \t 2.상품메뉴 \t 3.유저관리 \t 4.결재관리 \t 0.로그아웃");
+			System.out.println("1.상품조회 \t 2.상품메뉴 \t 3.유저관리 \t 4.결제관리 \t 5.리뷰관리 \t 0.로그아웃");//(+)
 			System.out.println("---------------------------------------------------");
 			System.out.print("번호 입력>");
 
@@ -45,10 +45,12 @@ public class AdminService {
 				case 2: return View.ADMINPRODMAIN; 
 				case 3: return View.ADMINUSERMAIN;
 				case 4: return View.ADMINORDERMAIN;
+				case 5: return View.REVIEWALL;
 				case 0:	return View.HOME;
 			}
 			return View.SEARCHSCREEN;
 		}
+		
 		public int AUserScreen() { // 메인메뉴
 			System.out.println("---------------------------------------------------");
 			System.out.println("--잊어버리신거 같아서 말하는데 손님은 왕입니다.--");
@@ -75,9 +77,10 @@ public class AdminService {
 			for (int i = 0; i < 1; i++){
 			for(Map<String, Object> user : userList) {
 			System.out.println("========================================================================================================================");
-			System.out.println("이름\t성별\t생일\t   \t주소   \t\t\t\t전화번호\t\t\t메일\t\t\t캐쉬");
+			System.out.println("ID\t이름\t성별\t생일\t   \t주소   \t\t\t\t전화번호\t\t\t메일\t\t\t캐쉬");
 			System.out.println("------------------------------------------------------------------------------------------------------------------------");
-				System.out.println(user.get("MEM_NAME")
+				System.out.println(user.get("MEM_ID")
+						+ "\t" + user.get("MEM_NAME")
 						+ "\t" + user.get("MEM_SEX")
 						+ "\t" + sdf.format(user.get("MEM_BIR"))
 				+ "\t" + user.get("MEM_ZIP")
@@ -145,7 +148,7 @@ public class AdminService {
 		public int AProdScreen() { // 메인메뉴
 			System.out.println("---------------------------------------------------");
 			System.out.println("--좋은 제품을 싸게사서 비싸게 팔자.--");
-			System.out.println("1.전체상품조회 \t 2.상품세부검색 \t 3.상품등록 \t 4.상품업데이트\t 5.상품삭제 \t0.뒤로가기");
+			System.out.println("1.전체상품조회 \t 2.상품세부검색 \t 3.상품등록 \t 4.상품수정 \t 5.상품삭제 \t0.뒤로가기");
 			System.out.println("---------------------------------------------------");
 			System.out.print("번호 입력>");
 
@@ -203,16 +206,13 @@ public class AdminService {
 				templi.add(temphm);
 				System.out.println();
 			}
-			System.out.println("1. 글번호 선택 \t 2. 상품입력 \t 3. 상품수정 \t 4. 상품삭제 \t 0. 뒤로가기");
+			System.out.println("1. 글번호 선택 \t 0. 뒤로가기");
 				switch (ScanUtil.nextInt()) {
 				case 1:{
 					System.out.println("글번호를 선택해주세요");  
 					snumber = ScanUtil.nextInt(); 
 					return View.ACHOOSENUMBER;
 				}
-				case 2: return View.ADMINPRODIN;
-				case 3: return View.ADMINPRODUP;
-				case 4: return View.ADMINPRODDEL;
 				case 0: return View.ADMINPRODMAIN;
 				}
 				return View.ADMINPRODMAIN;
@@ -231,8 +231,9 @@ public class AdminService {
 			System.out.println("["+i+"]번 상품 ");
 				System.out.println("상    품   명 : "+adminDao.selectSaleNo(stemp.toString()).get(i).get("PROD_NAME"));
 				System.out.println("가          격 : "+adminDao.selectSaleNo(stemp.toString()).get(i).get("PROD_SALE"));
-				System.out.println("제          원 : "+adminDao.selectSaleNo(stemp.toString()).get(i).get("PROD_DETAIL"));
+				System.out.println("제          원 : "+adminDao.selectSaleNo(stemp.toString()).get(i).get("PROD_INFO"));
 				System.out.println("주문가능수량 : "+adminDao.selectSaleNo(stemp.toString()).get(i).get("PROD_TOTALSTOCK"));
+				System.out.println("상품ID : "+adminDao.selectSaleNo(stemp.toString()).get(i).get("PROD_ID"));
 				temphm2.put("PROD_ID",adminDao.selectSaleNo(stemp.toString()).get(i).get("PROD_ID"));
 				templi2.add(temphm2);
 			}
@@ -346,7 +347,7 @@ public class AdminService {
 			param.put("PROD_NAME", prodName);
 			param.put("PROD_TOTALSTOCK", prodStock);
 			param.put("PROD_SALE", prodSale);
-			param.put("PROD_DETAIL", prodDetail);
+			param.put("PROD_INFO", prodDetail);
 			param.put("PROD_ID", prodId);
 			
 			int result = adminDao.updateProd(param);

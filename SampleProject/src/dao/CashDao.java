@@ -43,18 +43,14 @@ public class CashDao {
 	}
 	
 	
-	public void chargecash(int membercash) {
-		String sql = "UPDATE MEMBER SET MEM_CASH = MEM_CASH + ?  WHERE MEM_ID = ?";
+	public int chargecash(int membercash, String memid) {
+		String sql = "UPDATE MEMBER SET MEM_CASH = NVL(MEM_CASH,0) + ?  WHERE MEM_ID = ?";
 		
 		List<Object> param = new ArrayList<>();
 		param.add(membercash);
-		param.add(Controller.LoginUser.get("MEM_ID").toString());
+		param.add(memid);
 		
-		int update = jdbc.update(sql, param);
-		System.out.println(update);
-		
-
-		
+		return jdbc.update(sql, param);
 	}
 
 }

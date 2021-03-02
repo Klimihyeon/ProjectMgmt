@@ -49,6 +49,8 @@ public class ReviewDao {
 		
 	}
 	
+
+	
 	public void WriteReview(String num, String rate, String comment) {
 		String sqlrate = "INSERT INTO REVIEW(REVIEW_NO,MEM_ID, PROD_ID, RATING, CONTENT) "
 				+ " VALUES(REVIEW_SEQ.NEXTVAL , ? , "

@@ -35,7 +35,7 @@ public class ReviewService {
 
 				case 2: return View.MYREVIEW;
 
-				case 0: return View.MANAGEREVIEW;
+				case 0: return View.USERINFO;
 
 				default:return View.MAIN;
 				}
@@ -132,8 +132,11 @@ public class ReviewService {
 
 			default: return View.MAIN;
 		}
-	
 	}
+			
+			
+	
+	
 
 
 	

@@ -127,7 +127,6 @@ public class OrderDao {
 	      paramorder.add(Controller.LoginUser.get("MEM_ID").toString());
 	 return jdbc.selectList(sql,paramorder);
 	}
-	
 	public int test2(String str2, int in1) {  // 상품 주문시 cartdetail -> orderdetail (정보 넣기)
 		String sql = "INSERT INTO ORDERDETAIL(ORDERDETAIL_NO, ORDER1_NO, PROD_ID, ORDERDETAIL_QTY) "
 				+ " VALUES(ORDERDETAIL_SEQ.NEXTVAL, (select max(order1_no)  from order1  where mem_id = ?) , ?, ?)";

@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import util.JFrame11;
 import util.ScanUtil;
 import util.SetCommaTS;
 import util.View;
 import controller.Controller;
+import dao.ReviewDao;
 import dao.SelectProdDao;
 
 
@@ -17,6 +19,7 @@ public class SelectProdService {
 	
 	private SelectProdService(){}
 	private static SelectProdService instance;
+	private SetCommaTS setc = SetCommaTS.getInstance();
 	public static SelectProdService getInstance(){
 		if(instance == null){
 			instance = new SelectProdService();
@@ -25,6 +28,7 @@ public class SelectProdService {
 	}
 	
 	private SetCommaTS setcomma = SetCommaTS.getInstance();
+	private ReviewDao reviewDao = ReviewDao.getInstance();
 	
 	List<Map<String,Object>> templi = new ArrayList<>(); // [콘솔창의 게시글번호] 와 실제 게시글의 SALE_NO를 연동1
 	HashMap<String, Object> temphm = new HashMap<>();// [콘솔창의 게시글번호] 와 실제 게시글의 SALE_NO를 연동2
@@ -32,6 +36,7 @@ public class SelectProdService {
 	HashMap<String, Object> temphm2 = new HashMap<>();// [콘솔창의 상품번호] 와 실제 게시글의 PROD_ID를 연동1
 	int snumber;// 사용자가 선택한 [콘솔창의 게시글번호]를 변수에 저장
 	int gnumber; // 사용자가 선택한 [콘솔창의 상품번호]를 변수에 저장
+	Object stemp;
 	private SelectProdDao selectProdDao = SelectProdDao.getInstance();
 	
 public int searchscreen(){ // 메인화면(추천상품) 1. 상품검색 2. 글번호검색
@@ -91,13 +96,12 @@ public int searchprod(){ // 1.상품검색눌렀을때
 		case 5 :  
 			return View.SEARCHASC; // 5.가격오름차순
 		case 0: 
-			return View.SEARCHSCREEN;// 뒤로
+			return View.MAIN;// 뒤로
 		}
-	
-		return View.HOME; // 아직 보류
+		return View.SEARCHPROD; // 아직 보류
 		
 	}
-public int searchname() {
+public int searchname() { //상품명 검색
 	System.out.println("상품명을 입력해주세요>");
 	String input = ScanUtil.nextLine();
 	
@@ -105,29 +109,25 @@ public int searchname() {
 	List<String> temp = new ArrayList<>(); // [콘솔창의 글번호]와 상품ID를 연동할 리스트 -> 나중에 소비자가 게시글 선택시 상품ID를 가져와야 하기에
 	System.out.println("=======================================");
 	System.out.println("글번호\t카테고리\t가격\t제목");
-	System.out.println("---------------------------------------");
+//	System.out.println("---------------------------------------size : " + selectProdDao.selectList(input).size());
 	out : for(int i=0; i<selectProdDao.selectList(input).size(); i++){
 		temphm = new HashMap<>();
 		if(i!=0){// i=1이후부터 이전출력 게시물의 제목과 같으면 건너뛰기 (삼성특별전같은 경우 여러행으로 출력되서)
 			for(int j=0; j<i; j++){
-			if(selectProdDao.selectList(input).get(j).get("SALE_TITLE").toString().equals(selectProdDao.selectList(input).get(i).get("SALE_TITLE").toString())){
-				temphm.put("SALE_NO", selectProdDao.selectList(input).get(i).get("SALE_NO"));
-				templi.add(temphm);
-				continue out;
-			}
+				if(selectProdDao.selectList(input).get(j).get("SALE_TITLE").toString().equals(selectProdDao.selectList(input).get(i).get("SALE_TITLE").toString())){
+					temphm.put("SALE_NO", selectProdDao.selectList(input).get(i).get("SALE_NO"));
+					templi.add(temphm);
+					continue out;
+				}
 			}
 		}
 		System.out.print("["+i+"] ");
 		System.out.print("\t"+selectProdDao.selectList(input).get(i).get("LPROD_NM"));		
 		System.out.print("\t"+setcomma.Setcomma(selectProdDao.selectList(input).get(i).get("PROD_SALE").toString()));
 			System.out.print("\t"+selectProdDao.selectList(input).get(i).get("SALE_TITLE"));
-//			System.out.print("가격 : "+selectProdDao.selectList(input).get(i).get("PROD_SALE"));
-//			System.out.print("구매가능수량 : "+selectProdDao.selectList(input).get(i).get("PROD_TOTALSTOCK"));
 			temphm.put("SALE_NO", selectProdDao.selectList(input).get(i).get("SALE_NO")); // 0번글은 리스트 0번째이고 그에 들어간 hashmap에는 prod_id가 저장되어있다.			
 		templi.add(temphm);
 		System.out.println();
-//		System.out.println("templi : "+templi);
-//		System.out.println("temphm : "+temphm);
 	}
 	System.out.println("1. 글번호 선택 2. 재검색 0. 뒤로");
 		switch (ScanUtil.nextInt()) {
@@ -149,9 +149,9 @@ public int searchcategory() {
 	templi = new ArrayList<>();
 	List<String> temp = new ArrayList<>(); // 글번호 연동할 리스트 (게시글 상세조회시) (글번호는 상품별로 달림)
 	System.out.println("=======================================");
-	System.out.println("글번호\t가격\t제목");
+	System.out.println("글번호\t제목");
 	System.out.println("---------------------------------------");
-	out : for(int i=0; i<selectProdDao.searchcategory(Integer.toString(input)).size()-1; i++){
+	out : for(int i=0; i<selectProdDao.searchcategory(Integer.toString(input)).size(); i++){
 		temphm = new HashMap<>();
 		if(i!=0){// i=1이후부터 이전출력 게시물의 제목과 같으면 건너뛰기 (삼성특별전같은 경우 여러행으로 출력되서)
 			if(selectProdDao.searchcategory(Integer.toString(input)).get(i).get("SALE_TITLE").toString().equals(selectProdDao.searchcategory(Integer.toString(input)).get(i-1).get("SALE_TITLE").toString())){
@@ -169,7 +169,7 @@ public int searchcategory() {
 	}
 //		System.out.println(templi);
 //		System.out.println(temphm);
-	System.out.println("1. 글 선택 2. 뒤로");
+	System.out.println("1. 글 선택 0. 뒤로");
 	switch (ScanUtil.nextInt()) { // ★ 위 1,2 이어서
 	case 1:
 	{	
@@ -177,8 +177,8 @@ public int searchcategory() {
 	snumber = ScanUtil.nextInt(); 
 		return View.CHOOSENUMBER; // VIEW.SEARCHNAME맞는지?
 	}
-	case 2:
-		return View.SEARCHCATEGORY;
+	case 0:
+		return View.SEARCHPROD;
 	}
 	return View.HOME;
 }
@@ -189,22 +189,62 @@ public int searchcategory() {
 public int searchrate(){  
 	System.out.println("별점기준 내림차순으로 정렬합니다.");
 	System.out.println(selectProdDao.searchRate());
-	System.out.println("1. 글 선택 2. 뒤로");
-	return View.MAIN;
+	System.out.println("=======================================");
+	System.out.println("글번호\t평점\t제목");
+	System.out.println("---------------------------------------");
+	for(int i=0; i<selectProdDao.searchRate().size(); i++){
+		System.out.print("["+i+"] ");
+		System.out.print("\t"+selectProdDao.searchRate().get(i).get("평점")+"점");
+			System.out.print("\t"+selectProdDao.searchRate().get(i).get("PROD_SALE"));
+			System.out.print("\t"+selectProdDao.searchRate().get(i).get("PROD_NAME"));
+		System.out.println();
+	}
+	System.out.println("1. 글 선택 0. 뒤로");
+	switch (ScanUtil.nextInt()) {
+	case 1:
+	{	
+	System.out.println("글번호를 선택해주세요");  
+	int input = ScanUtil.nextInt();
+	String prodid = selectProdDao.searchRate().get(input).get("PROD_ID").toString();
+	// prodid로 리스트 조회
+	System.out.println("해당상품을 포함한 게시글을 모두 조회합니다.");
+	selectProdDao.searchRateDetail(prodid);
+	System.out.println("=======================================");
+	System.out.println("글번호\t가격\t제목");
+	System.out.println("---------------------------------------");
+	templi = new ArrayList<>();
+	for(int i=0; i<selectProdDao.searchRateDetail(prodid).size(); i++){
+		temphm = new HashMap<>();
+		System.out.print("["+i+"] ");
+		System.out.print("\t"+setc.Setcomma(selectProdDao.searchRateDetail(prodid).get(i).get("PROD_SALE").toString()));
+		System.out.print("\t"+selectProdDao.searchRateDetail(prodid).get(i).get("SALE_TITLE"));
+		temphm.put("SALE_NO", selectProdDao.searchRateDetail(prodid).get(i).get("SALE_NO"));
+		templi.add(temphm);
+		System.out.println();
+	}
+	System.out.println("구분번호를 입력>");
+	snumber = ScanUtil.nextInt();
+
+	return View.CHOOSENUMBER; // VIEW.SEARCHNAME맞는지?
+	}
+	case 0:
+		return View.SEARCHPROD;
+	}
+	return View.SEARCHPROD;
 }
 
 public int searchdesc(){
 	templi = new ArrayList<>();
 	List<String> temp = new ArrayList<>(); // 글번호 연동할 리스트 (게시글 상세조회시) (글번호는 상품별로 달림)
 	System.out.println("=======================================");
-	System.out.println("글번호\t가격\t제목");
+	System.out.println("글번호\t\t가격\t\t제목");
 	System.out.println("---------------------------------------");
 	
-	for(int i=0; i<selectProdDao.searchdesc().size()-1; i++){
+	for(int i=0; i<selectProdDao.searchdesc().size(); i++){
 		temphm = new HashMap<>();
-		System.out.print("["+i+"] ");
-		System.out.print("\t"+selectProdDao.searchdesc().get(i).get("PROD_SALE"));
-			System.out.print("\t"+selectProdDao.searchdesc().get(i).get("SALE_TITLE"));
+		System.out.print("["+i+"]\t\t");
+		System.out.print(setc.Setcomma(selectProdDao.searchdesc().get(i).get("PROD_SALE").toString())+"\t\t");
+			System.out.print(selectProdDao.searchdesc().get(i).get("SALE_TITLE"));
 			temphm.put("SALE_NO",selectProdDao.searchdesc().get(i).get("SALE_NO")); // 0번글은 리스트 0번째이고 그에 들어간 hashmap에는 prod_id가 저장되어있다.			
 		templi.add(temphm);
 		System.out.println();
@@ -226,21 +266,17 @@ public int searchasc(){
 	templi = new ArrayList<>();
 	List<String> temp = new ArrayList<>(); // 글번호 연동할 리스트 (게시글 상세조회시) (글번호는 상품별로 달림)
 	System.out.println("=======================================");
-	System.out.println("글번호\t가격\t제목");
+	System.out.println("글번호\t\t가격\t\t제목");
 	System.out.println("---------------------------------------");
-	
-	for(int i=0; i<selectProdDao.searchasc().size()-1; i++){
+	for(int i=0; i<selectProdDao.searchasc().size(); i++){
 		temphm = new HashMap<>();
 		System.out.print("["+i+"] ");
-		for(int j=0; j<1; j++){
-			System.out.print("\t"+selectProdDao.searchasc().get(i).get("PROD_SALE"));
-			System.out.print("\t"+selectProdDao.searchasc().get(i).get("SALE_TITLE"));
-			temphm.put("SALE_NO",selectProdDao.searchasc().get(i).get("SALE_NO")); // 0번글은 리스트 0번째이고 그에 들어간 hashmap에는 prod_id가 저장되어있다.			
-		}
-		templi.add(temphm);
-		System.out.println();
+			System.out.print(setc.Setcomma(selectProdDao.searchasc().get(i).get("PROD_SALE").toString())+"\t\t");
+			System.out.print(selectProdDao.searchasc().get(i).get("SALE_TITLE").toString()+"\t\t");
+			temphm.put("SALE_NO",selectProdDao.searchasc().get(i).get("SALE_NO")); // 0번글은 리스트 0번째이고 그에 들어간 hashmap에는 prod_id가 저장되어있다.
+			templi.add(temphm);
+			System.out.println();
 	}
-	
 	System.out.println("1. 글 선택 0. 뒤로");
 	switch (ScanUtil.nextInt()) {
 	case 1:
@@ -255,28 +291,41 @@ public int searchasc(){
 	return View.SEARCHPROD;
 }
 
+
 public int choosenumber(){   // 게시글(SALE_NO)의 속한 상품 출력 
-	Object stemp = templi.get(snumber).get("SALE_NO"); // 게시글번호 변수저장
-//	selectProdDao.selectSaleNo(stemp.toString());
+	stemp = templi.get(snumber).get("SALE_NO"); // 게시글번호 변수저장
+//	selectProdDao.selectSaleNo(stemp.toString());F
 //System.out.println("size : "+selectProdDao.selectSaleNo(stemp.toString()).size());  // for문 i범위  
 	templi2 = new ArrayList<>(); // 글번호 연동할 리스트
 	System.out.println("=======================================");
-	System.out.println("글번호\t제목\t");
+	System.out.println("글번호\t\t제목\t");
 	System.out.println("---------------------------------------");
 	for(int i=0; i<selectProdDao.selectSaleNo(stemp.toString()).size(); i++){
-		System.out.println(selectProdDao.selectSaleNo(stemp.toString()).size());
 		temphm2 = new HashMap<>();		
 		System.out.println("["+i+"]번 상품 ");
 			System.out.println("상    품   명 : "+selectProdDao.selectSaleNo(stemp.toString()).get(i).get("PROD_NAME"));
 			System.out.println("가          격 : "+selectProdDao.selectSaleNo(stemp.toString()).get(i).get("PROD_SALE"));
 			System.out.println("제          원 : "+selectProdDao.selectSaleNo(stemp.toString()).get(i).get("PROD_INFO"));
 			System.out.println("주문가능수량 : "+selectProdDao.selectSaleNo(stemp.toString()).get(i).get("PROD_TOTALSTOCK"));
+			String Path1 = (String) selectProdDao.selectSaleNo(stemp.toString()).get(i).get("PRDO_IMG");
 			temphm2.put("PROD_ID",selectProdDao.selectSaleNo(stemp.toString()).get(i).get("PROD_ID"));
 			templi2.add(temphm2);
+			String path = Path1;
+			JFrame11.InsertImg(path);
 		}
-		System.out.println("\n1. 장바구니에 담기  2. 장바구니 바로가기 0.뒤로");
+		System.out.println("\n1. 리뷰보기  2. 장바구니에 담기  3. 장바구니 바로가기  0.뒤로");
 		switch (ScanUtil.nextInt()) {
-		case 1: {
+		case 1 :{
+			if(selectProdDao.selectSaleNo(stemp.toString()).size()==1){
+				gnumber = 0;
+				return View.REVIEWLISTPROD;
+			} else {
+				System.out.println("상품번호 입력>");
+				gnumber = ScanUtil.nextInt(); // 상품번호
+				return View.REVIEWLISTPROD;
+			}
+		}
+		case 2: {
 			if(selectProdDao.selectSaleNo(stemp.toString()).size()==1){
 				gnumber = 0;
 				return View.ADDCART;
@@ -286,11 +335,30 @@ public int choosenumber(){   // 게시글(SALE_NO)의 속한 상품 출력
 				return View.ADDCART;
 			}
 		}
-		case 2: return View.CARTLIST;
+		case 3: return View.CARTLIST;
 		case 0: return View.SEARCHPROD;
 	} 
 		return View.CHOOSENUMBER;
 }
+
+public int reviewListProd(){
+	String prodid1 = selectProdDao.selectSaleNo(stemp.toString()).get(gnumber).get("PROD_ID").toString();
+	System.out.println("=======================================");
+	System.out.println("회원ID \t 코멘트 \t 평점");
+	System.out.println("---------------------------------------");
+	for(int i=0; i<selectProdDao.ReviewListProd(prodid1).size(); i++){
+	System.out.println("=======================================");
+	System.out.print(selectProdDao.ReviewListProd(prodid1).get(i).get("MEM_ID")+"\t");
+	System.out.print(selectProdDao.ReviewListProd(prodid1).get(i).get("CONTENT")+"\t");
+	System.out.print(selectProdDao.ReviewListProd(prodid1).get(i).get("RATING")+"\n");
+}
+	System.out.println("0. 돌아가기");
+	switch(ScanUtil.nextInt()){
+	case 0 : return View.CHOOSENUMBER;
+	}
+return View.CHOOSENUMBER;// 임시
+}
+
 
 
 public int addcart(){ // 장바구니 담기

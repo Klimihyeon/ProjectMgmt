@@ -40,8 +40,12 @@ public class JDBCUtil {
 	 *  int update(String sql) : ? 없을 때
 	 *  int update(String sql, List<Object> param) : ?있을 때
 	 */
+//	private static final String URL = "jdbc:oracle:thin:@192.168.43.34:1521:xe";
+//	private static final String ID = "ihyeon";
+//	private static final String PASSWORD = "java";
+//	
 	private static final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
-	private static final String ID = "ihyeon";
+	private static final String ID = "PC77";
 	private static final String PASSWORD = "java";
 
 	java.sql.Connection con = null;

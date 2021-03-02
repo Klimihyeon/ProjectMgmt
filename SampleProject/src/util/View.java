@@ -22,7 +22,7 @@ public class View {
 	//admin order
 	public static final int ADMINORDERMAIN = 920;	
 	public static final int ADMINORDERINFO = 921;	
-	public static final int ADMINORDERSELEC = 922;	
+	public static final int ADMINORDERSELECT = 922;	
 	public static final int ADMINORDERDELIVER = 923;	
 	
 	//admin anal
@@ -31,7 +31,9 @@ public class View {
 	public static final int ADMINANALYSISMONTH = 932;
 	public static final int ADMINANALYSISYEAR = 933;
 	public static final int ADMINANALYSISAGE = 934; 
-	public static final int ADMINANALYSISSEX = 935;
+	
+	//admin review
+	public static final int REVIEWALL = 936;  //(+)
 	
 	////user
 	//login ~ home
@@ -41,7 +43,6 @@ public class View {
 	public static final int DELMEM = 3;
 	public static final int USERINFO = 4;
 	public static final int USERUPDATE = 5;
-	public static final int CASHCHARGE = 6;
 
 	// main (로그인 후 첫화면)
 	public static final int MAIN = 7; 
@@ -69,6 +70,7 @@ public class View {
 	
 	//cash
 	public static final int CASHMAIN = 60;
+	public static final int CASHCHARGE = 61;
 	//cart
 	public static final int CARTLIST = 91;
 	public static final int DEL_CART = 93;
@@ -77,10 +79,10 @@ public class View {
 	
 	//my info
 	public static final int MYINFO = 63; 
-	public static final int CHOICEREVIEW = 64;
 	public static final int MANAGEREVIEW = 65;
 	public static final int WRITEREVIEW = 66;
 	public static final int MYREVIEW = 67;
+	public static final int REVIEWLISTPROD = 68;
 	
 	//notice
 	public static final int SELECTNOTICEALL = 70;

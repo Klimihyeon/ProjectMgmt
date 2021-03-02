@@ -2,18 +2,20 @@ package service;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import controller.Controller;
-import dao.UserDao;
 import util.ScanUtil;
+import util.SetCommaTS;
 import util.View;
+import controller.Controller;
+import dao.CashDao;
+import dao.NoticeDao;
+import dao.UserDao;
 
 public class UserService {
-
+	private SetCommaTS setc = SetCommaTS.getInstance();
 	private UserService(){}
 	private static UserService instance;
 	public static UserService getInstance(){
@@ -22,8 +24,9 @@ public class UserService {
 		}
 		return instance;
 	}
-	
+	private NoticeDao noticeDao = NoticeDao.getInstance();
 	private UserDao userDao = UserDao.getInstance();
+	private CashDao cashDao = CashDao.getInstance();
 	public SimpleDateFormat sdf = new SimpleDateFormat("YYYY.MM.DD");	
 	
 	public int join(){
@@ -95,6 +98,11 @@ public class UserService {
 		
 		if(0 < result){
 			System.out.println("회원가입 성공");
+			String joinmessagetitle = "회원가입을 진심으로 축하드립니다!";
+			String joinmessagetcontent = "축하의 의미로 1000캐시를 선물로 드립니다~";
+			String memid = userId;
+			cashDao.chargecash(1000,memid); // 1000추가
+			noticeDao.sendnotice(joinmessagetitle, joinmessagetcontent, userId);
 		}else{
 			System.out.println("회원가입 실패");
 		}
@@ -151,8 +159,13 @@ public class UserService {
 		
 		Map<String, Object> userList = userDao.UserInfo(userId, password);
 		
-		System.out.println("========================================================================================================================");
-		System.out.println("이름\t성별\t생일\t   우편번호 \t주소  \t\t\t전화번호\t\t메일\t캐쉬");
+		System.out.print("=================================================내 정 보==================================================");
+		if(noticeDao.selectnoticenoread().size()>0){
+			System.out.println(("🔔+("+noticeDao.selectnoticenoread().size()+")==============="));
+		} else{System.out.println("====================");
+		}
+		
+		System.out.println("이름\t성별\t생일\t\t\t   우편번호 \t주소  \t\t\t전화번호\t\t\t메일\t\t캐시");
 		System.out.println("------------------------------------------------------------------------------------------------------------------------");
 			System.out.println(userList.get("MEM_NAME")
 					+ "\t" + userList.get("MEM_SEX")
@@ -162,10 +175,10 @@ public class UserService {
 			+ "\t" + userList.get("MEM_ADD2")
 			+ "\t" + userList.get("MEM_HP")
 			+ "\t" + userList.get("MEM_MAIL")
-			+ "\t" + userList.get("MEM_CASH"));
+			+ "\t" + setc.Setcomma(userList.get("MEM_CASH").toString()));
 
 			System.out.println("========================================================================================================================");
-		      System.out.println("1.회원정보수정 \t 2.캐쉬충전 \t 3.주문목록확인 \t 4.리뷰관리 \t 5.알림확인 \t 0.뒤로");
+		      System.out.println("1.회원정보수정 \t 2.캐시충전 \t 3.주문목록확인 \t 4.리뷰관리 \t 5.알림확인 \t 0.뒤로");
 		      System.out.print("입력>");
 		      
 		      int input = ScanUtil.nextInt();
@@ -177,7 +190,7 @@ public class UserService {
 		      case 3:
 		         return View.SELECTORDER;
 		      case 4:
-		         return View.CHOICEREVIEW;
+		         return View.MANAGEREVIEW;
 		      case 5:
 		         return View.SELECTNOTICEALL;
 		      case 0:
