@@ -1,12 +1,10 @@
 package controller;
 
-import java.awt.List;
 import java.util.Map;
-
-import javax.swing.ListModel;
 
 import dao.AdminOrderDao;
 import service.AdminOrderService;
+import service.AdminReviewService;
 import service.AdminService;
 import service.BoardService;
 import service.CartService;
@@ -37,15 +35,13 @@ public class Controller {
 		new Controller().start();
 	}
 	
-	
-	
 	public static Map<String, Object> LoginUser; //로그인
 	//user
 	private UserService userService = UserService.getInstance();
 
 	//cart
 	private CartService cartService = CartService.getInstance();
-
+	
 	//board
 	private BoardService boardService = BoardService.getInstance();
 	
@@ -61,8 +57,9 @@ public class Controller {
 	//admin
 	private AdminService adminService = AdminService.getInstance();
 	//review
-	private ReviewService reviewService = ReviewService.getInstance();
-	//notice
+		private ReviewService reviewService = ReviewService.getInstance();
+		private AdminReviewService adminreviewService = AdminReviewService.getInstance();
+		//notice
 	private NoticeService noticeService = NoticeService.getInstance();
 	
 	
@@ -94,7 +91,7 @@ public class Controller {
 			case View.ADMINPRODDEL : view = adminService.deleteProd(); break;
 			case View.ADMINPRODUP : view = adminService.updateProd(); break;
 			case View.ACHOOSENUMBER : view = adminService.choosenumber(); break;
-			
+			case View.REVIEWALL : view = adminreviewService.ReviewAll(); break; 
 //			case View.ADMINORDER : view = adminService.; break;
 			
 			//prod
@@ -117,6 +114,7 @@ public class Controller {
 			//order
 			
 			case View.CASHMAIN : view = cashService.selectorderdetail(); break;
+			case View.CASHCHARGE : view = cashService.cashcharge(); break;
 			case View.ORDERLIST : view = orderService.selectorderdetail(); break;
 			case View.ORDERMAIN : view = orderService.selectorderdetail(); break;
 			case View.SELECTORDER : view = selectOrderService.selectorder(); break;
@@ -126,6 +124,7 @@ public class Controller {
 			case View.MANAGEREVIEW : view = reviewService.ManageReview(); break;
 			case View.WRITEREVIEW : view = reviewService.WriteReview(); break;
 			case View.MYREVIEW : view = reviewService.MyReview(); break;
+			case View.REVIEWLISTPROD : view = selectProdService.reviewListProd(); break;
 			
 			//notice 
 			case View.SELECTNOTICEALL : view = noticeService.selectnotice(); break;
@@ -134,7 +133,7 @@ public class Controller {
 			// Admin order
 			case View.ADMINORDERMAIN : view =  adminOrderService.adminordermain(); break;
 			case View.ADMINORDERINFO	 : view = adminOrderService.adminSelectOrderdetail(); break;
-			case View.ADMINORDERSELEC	: view = adminOrderService.adminorderselect(); break;
+			case View.ADMINORDERSELECT	: view = adminOrderService.adminorderselect(); break;
 			case View.ADMINORDERDELIVER : view = adminOrderService.adminorderdeliver(); break;
 				
 			//Admin analys
@@ -143,7 +142,6 @@ public class Controller {
 			case View.ADMINANALYSISMONTH : view = adminOrderService.adminanalysismonth(); break;
 			case View.ADMINANALYSISYEAR : view = adminOrderService.adminanalysisyear(); break;
 			case View.ADMINANALYSISAGE : view = adminOrderService.adminanalysisage(); break;
-//			case View.ADMINANALYSISSEX : view = adminOrderService.adminanalysissex(); break;
 
 			}
 		}

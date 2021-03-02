@@ -49,17 +49,17 @@ public class AdminDao {
 					+ " FROM PROD P "
 					+ " INNER JOIN SALEDETAIL SD ON (P.PROD_ID = SD.PROD_ID) "
 					+ " INNER JOIN SALE S ON (S.SALE_NO = SD.SALE_NO) "
-					+ " WHERE SALE_TITLE LIKE '%'||?||'%'";  // ★시발 이렇게 해야함
+					+ " WHERE SALE_TITLE LIKE UPPER('%'||?||'%')";  // ★시발 이렇게 해야함
 			List<Object> param = new ArrayList<>();
 			param.add(input);    // ★  해결!
 			return jdbc.selectList(sql, param);
 		}
 		public List<Map<String, Object>> selectSaleNo(String input) {   // 입력한 게시글번호의 상품들 검색 (다중행) 
-			String sql = " SELECT P.PROD_NAME, P.PROD_TOTALSTOCK, P.PROD_SALE, P.PROD_ID, S.SALE_TITLE, S.SALE_NO, P.PROD_DETAIL"
+			String sql = " SELECT P.PROD_NAME, P.PROD_TOTALSTOCK, P.PROD_SALE, P.PROD_ID, S.SALE_TITLE, S.SALE_NO, P.PROD_DETAIL, P.PROD_INFO"
 					+ " FROM SALEDETAIL SD "
 					+ " INNER JOIN PROD P ON P.PROD_ID = SD.PROD_ID "
 					+ " INNER JOIN SALE S ON S.SALE_NO = SD.SALE_NO "
-					+ " WHERE S.SALE_NO = ?"; // TEST 
+					+ " WHERE S.SALE_NO = UPPER(?)"; // TEST 
 			List<Object> param = new ArrayList<>();
 			param.add(input);   //  
 			return jdbc.selectList(sql, param);
@@ -82,7 +82,7 @@ public class AdminDao {
 		public int deleteProd(Map<String, Object> param){
 			
 			String sql = "delete from PROD "
-					+ "where PROD_ID = ?";
+					+ "where PROD_ID = UPPER(?)";
 			List<Object> p = new ArrayList<>();
 			p.add(param.get("PROD_ID"));
 
