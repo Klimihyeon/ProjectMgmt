@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="iCourse-Mapper">
+	<select id="selectByICourseCode" resultType="iCourse">
+		select *
+		from ing_course
+		where ing_course_code = #{ingCourseCode}
+	</select>
+	<select id="selectICourse" resultType="iCourse">
+		SELECT
+		ing_course_code as ingCourseCode,
+		course_code as courseCode,
+		ing_course_begin_date as ingCourseBeginDate,
+		ing_course_end_date as ingCourseEndDate,
+		room_code as roomCode,
+		ing_course_count as ingCourseCount,
+		ing_course_yn as ingCourseYn,
+		fac_id as facId,
+		ing_course_regdate as ingCourseRegdate,
+		as_course_name as courseName
+		FROM ing_course
+	</select>
+	<update id="insertiCourse" parameterType="iCourse">
+	insert
+	into
+	ing_course(
+	ING_COURSE_CODE ,
+	COURSE_CODE ,
+	ING_COURSE_BEGIN_DATE ,
+	ING_COURSE_END_DATE ,
+	ROOM_CODE ,
+	ING_COURSE_COUNT ,
+	ING_COURSE_YN ,
+	FAC_ID ,
+	ING_COURSE_REGDATE ,
+	as_COURSE_NAME
+	)
+	values
+	(
+	#{ingCourseCode},
+	#{courseCode},
+	#{ingCourseBeginDate},
+	#{ingCourseEndDate},
+	#{roomCode},
+	#{ingCourseCount},
+	#{ingCourseYn},
+	#{facId},
+	sysdate,
+	#{courseName}
+	)
+	</update>
+	
+	<select id="selectiCourseSeqNext" resultType="int">
+		select seq_ing_course.nextval as ingCourseCode from dual
+	</select>
+
+	<update id="deleteiCourse" parameterType="str">
+		delete
+		from ing_course
+		where ING_COURSE_CODE=#{ingCourseCode}
+	</update>
+	
+	<update id="updateiCourse" parameterType="iCourse">
+		update 
+		ing_course 
+		set 
+		ING_COURSE_BEGIN_DATE=#{ingCourseBeginDate}, 
+		ING_COURSE_END_DATE=#{ingCourseEndDate}, 
+		ING_COURSE_REGDATE=sysdate 
+		where ING_COURSE_CODE=#{ingCourseCode}
+	</update>
+	
+</mapper>
+ 
+
+	   
+	    
+	    
+	  
+	   
+	   
+	    
+	    
