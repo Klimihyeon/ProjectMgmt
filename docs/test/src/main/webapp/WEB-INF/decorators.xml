@@ -8,6 +8,9 @@
 	
 	
 	<decorator name="openWindow" page="open_decorator.jsp">
+		<pattern>/indexOpen.do*</pattern>
+		<pattern>/qr.do*</pattern>
+		
 		<pattern>/**/*</pattern>				
 		<pattern>/main.do</pattern>			
 	</decorator>

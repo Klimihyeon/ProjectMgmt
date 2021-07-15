@@ -12,7 +12,7 @@
 
 // RTL Support
 var direction = 'ltr',
-  assetPath = 'lms/resources/app-assets/';
+  assetPath = '/lms/resources/vuexy/app-assets/';
 if ($('html').data('textdirection') == 'rtl') {
   direction = 'rtl';
 }
@@ -167,7 +167,6 @@ document.addEventListener('DOMContentLoaded', function () {
     sidebar.modal('show');
     addEventBtn.addClass('d-none');
     cancelBtn.addClass('d-none');
-    //얘네가 버튼
     updateEventBtn.removeClass('d-none');
     btnDeleteEvent.removeClass('d-none');
 
@@ -188,8 +187,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     //  Delete Event
     btnDeleteEvent.on('click', function () {
-//      eventToUpdate.remove();
-      removeEvent(eventToUpdate.id);
+      eventToUpdate.remove();
+      // removeEvent(eventToUpdate.id);
       sidebar.modal('hide');
       $('.event-sidebar').removeClass('show');
       $('.app-calendar .body-content-overlay').removeClass('show');
@@ -220,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Fetch Events from API endpoint reference
     /* $.ajax(
       {
-        url: '../../../app-assets/data/app-calendar-events.js',
+        url: '/lms/resources/vuexy/app-assets/data/app-calendar-events.js',
         type: 'GET',
         success: function (result) {
           // Get requested calendars as Array
@@ -335,7 +334,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // addEvent
   // ------------------------------------------------
   function addEvent(eventData) {
-	console.log(eventData);
     calendar.addEvent(eventData);
     calendar.refetchEvents();
   }
@@ -346,30 +344,33 @@ document.addEventListener('DOMContentLoaded', function () {
   function updateEvent(eventData) {
     var propsToUpdate = ['id', 'title', 'url'];
     var extendedPropsToUpdate = ['calendar', 'guests', 'location', 'description'];
-    console.log(eventData);
-	  $.ajax({
-          type: 'POST',
-          url: "modify",
-          dataType: "json",
-          data: eventData,
-          success: function () {
-        	  alert("성공");
-          },
-	  	  error: function(e){
-	  		  alert(e);
-	  		  console.log(e);
-	  	  }
-      });
+
     updateEventInCalendar(eventData, propsToUpdate, extendedPropsToUpdate);
   }
-  
 
   // ------------------------------------------------
   // removeEvent
   // ------------------------------------------------
   function removeEvent(eventId) {
+	  console.log("removeEventInCalendar");
+
+	    var id = {
+	    		icc : eventId
+	    		}
+	    
+		  $.ajax({
+	          type: 'POST',
+	          url: "remove",
+	          dataType: "json",
+	          data: id,  
+	          success: function (data) {
+	        	  alert("성공");
+	          },
+		  	  error: function(){
+		  		  alert("에러");
+		  	  }
+	      });  
     removeEventInCalendar(eventId);
-    
   }
 
   // ------------------------------------------------
@@ -404,25 +405,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // (UI) removeEventInCalendar
   // ------------------------------------------------
   function removeEventInCalendar(eventId) {
-	  console.log("removeEventInCalendar");
-
-    var id = {
-    		icc : eventId
-    		}
-    
-	  $.ajax({
-          type: 'POST',
-          url: "remove",
-          ///lms/index.do
-          dataType: "json",
-          data: id,  
-          success: function (data) {
-        	  alert("성공");
-          },
-	  	  error: function(){
-	  		  alert("에러");
-	  	  }
-      });
     calendar.getEventById(eventId).remove();
   }
 
@@ -450,6 +432,34 @@ document.addEventListener('DOMContentLoaded', function () {
       if (allDaySwitch.prop('checked')) {
         newEvent.allDay = true;
       }
+      var form = document.registForm;
+  	var title = form.title.value;
+  	var start = form.start.value;
+  	var end = form.end.value; 
+  	
+  	var  datas = {
+  			"title" : title,
+  			"start" : start,
+  			"end" : end
+  			} 
+
+	  console.log(datas);
+     $.ajax(
+      {
+        url: "regist",
+        type: "POST",
+        dataType:"json",
+        data:datas,
+        success: function (result) {
+          var calendars = selectedCalendars();
+
+          return [result.events.filter(event => calendars.includes(event.extendedProps.calendar))];
+        },
+        error: function (error) {
+        	console.log(error);
+        }
+      }
+    ); 
       addEvent(newEvent);
     }
   });
@@ -474,11 +484,22 @@ document.addEventListener('DOMContentLoaded', function () {
       };
 
       updateEvent(eventData);
+      $.ajax({
+          type: 'POST',
+          url: "modify",
+          dataType: "json",
+          data: eventData,
+          success: function (data) {
+        	  alert("성공");
+          },
+	  	  error: function(e){
+	  		  console.log(e);
+	  	  }
+      });
       sidebar.modal('hide');
     }
   });
 
-    
   // Reset sidebar input values
   function resetValues() {
     endDate.val('');

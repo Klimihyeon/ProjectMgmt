@@ -24,6 +24,10 @@
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
 
+<div class="content-wrapper" style="background-color:#fff;">
+	 	<iframe name="ifr" src="<%=request.getContextPath() %>/qr.do" frameborder="0" style="width:100%;height:85vh;"></iframe>
+ 	</div>
+
     <script>
         $(window).on('load', function() {
             if (feather) {
@@ -35,6 +39,7 @@
         })
     </script>
     <decorator:body />
+    
 <%@ include file="/WEB-INF/views/include/main_footer.jsp"%>    
 <%@ include file="/WEB-INF/views/include/js.jsp"%>    
 </body>

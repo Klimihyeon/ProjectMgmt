@@ -7,13 +7,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title><decorator:title /></title>
-<%@ include file="/WEB-INF/views/include/style.jsp" %>
-
+<title>opendeco</title>
+<%@ include file="/WEB-INF/views/include/style.jsp"%>
 <decorator:head />
 </head>
 
-<body>
+<body class="vertical-layout vertical-menu-modern navbar-floating footer-static" data-open="click" data-menu="vertical-menu-modern" data-col="">
+
 
 <decorator:body />
 

@@ -1,0 +1,65 @@
+//Add new event
+      var form = document.registForm;
+    	var title = form.title.value;
+    	var start = form.start.value;
+    	var end = form.end.value; 
+    	
+    	var  datas = {
+    			"title" : title,
+    			"start" : start,
+    			"end" : end
+    			} 
+
+  	  console.log(datas);
+       $.ajax(
+        {
+          url: "regist",
+          type: "POST",
+          dataType:"json",
+          data:datas,
+          success: function (result) {
+            var calendars = selectedCalendars();
+
+            return [result.events.filter(event => calendars.includes(event.extendedProps.calendar))];
+          },
+          error: function (error) {
+          	console.log(error);
+          }
+        }
+      ); 
+	  
+	  
+//Update new event
+      $.ajax({
+            type: 'POST',
+            url: "modify",
+            dataType: "json",
+            data: eventData,
+            success: function (data) {
+          	  alert("성공");
+            },
+  	  	  error: function(e){
+  	  		  alert(e);
+  	  		  console.log(e);
+  	  	  }
+        });
+		
+//remove event
+console.log("removeEventInCalendar");
+
+	    var id = {
+	    		icc : eventId
+	    		}
+	    
+		  $.ajax({
+	          type: 'POST',
+	          url: "remove",
+	          dataType: "json",
+	          data: id,  
+	          success: function (data) {
+	        	  alert("성공");
+	          },
+		  	  error: function(){
+		  		  alert("에러");
+		  	  }
+	      });

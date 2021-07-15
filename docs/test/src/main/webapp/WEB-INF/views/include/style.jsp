@@ -31,6 +31,17 @@
     <link rel="stylesheet" type="text/css" href="/lms/resources/vuexy/app-assets/css/pages/app-calendar.css">
     <link rel="stylesheet" type="text/css" href="/lms/resources/vuexy/app-assets/css/plugins/forms/form-validation.css">
     <!-- END: Page CSS-->
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Sunflower:wght@300&display=swap" rel="stylesheet">
+
+	<!-- page-profile css -->
+    <link rel="stylesheet" type="text/css" href="/lms/resources/vuexy/app-assets/css/pages/page-profile.css">
+    <style>
+  		*{
+   			font-family: 'Sunflower', sans-serif; 
+/*   			font-family: 'Jua', sans-serif; */
+  		}
+    
+    </style>
     
     <!-- jquery-->
     <script src="/lms/resources/vuexy/app-assets/vendors/js/jquery/jquery.min.js"></script>
