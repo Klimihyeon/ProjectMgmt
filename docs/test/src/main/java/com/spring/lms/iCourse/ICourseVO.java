@@ -1,5 +1,6 @@
 package com.spring.lms.iCourse;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ICourseVO {
@@ -12,14 +13,32 @@ public class ICourseVO {
 	private String ingCourseYn;
 	private String facId;
 	private Date ingCourseRegdate;
-	private String courseName;
+	private String asCourseName;
 	private String facName;
 	
-	public String getCourseName() {
-		return courseName;
+    public String getIngCourseBeginDateString() {
+    	String ingCourseBeginDateString = "";
+    	if(this.ingCourseBeginDate != null) {
+    		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+    		ingCourseBeginDateString = transFormat.format(this.ingCourseBeginDate);
+    	}
+    	return ingCourseBeginDateString;
+    }
+    public String getIngCourseEndDateString() {
+    	String ingCourseEndDateString = "";
+    	if(this.ingCourseEndDate != null) {
+    		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+    		ingCourseEndDateString = transFormat.format(this.ingCourseEndDate);
+    	}
+    	return ingCourseEndDateString;
+    }
+    
+    
+	public String getAsCourseName() {
+		return asCourseName;
 	}
-	public void setCourseName(String courseName) {
-		this.courseName = courseName;
+	public void setAsCourseName(String asCourseName) {
+		this.asCourseName = asCourseName;
 	}
 	public String getFacName() {
 		return facName;
@@ -83,14 +102,12 @@ public class ICourseVO {
 	}
 	@Override
 	public String toString() {
-		return "iCourseVO [ingCourseCode=" + ingCourseCode + ", courseCode=" + courseCode + ", ingCourseBeginDate="
+		return "ICourseVO [ingCourseCode=" + ingCourseCode + ", courseCode=" + courseCode + ", ingCourseBeginDate="
 				+ ingCourseBeginDate + ", ingCourseEndDate=" + ingCourseEndDate + ", roomCode=" + roomCode
 				+ ", ingCourseCount=" + ingCourseCount + ", ingCourseYn=" + ingCourseYn + ", facId=" + facId
-				+ ", ingCourseRegdate=" + ingCourseRegdate + ", courseName=" + courseName + ", facName=" + facName
+				+ ", ingCourseRegdate=" + ingCourseRegdate + ", asCourseName=" + asCourseName + ", facName=" + facName
 				+ "]";
 	}
-	
-	
 	
 	
 }

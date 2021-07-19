@@ -22,22 +22,22 @@ public class ICourseDAOImpl implements ICourseDAO{
 
 	@Override
 	public void insertiCourse(ICourseVO icvo) throws SQLException {
-		session.update("iCourse-Mapper.insertiCourse", icvo);
+		int cnt = session.update("iCourse-Mapper.insertiCourse", icvo);
+		System.out.println("insert = "+cnt);
 	}
 
 
 	@Override
 	public void deleteiCourse(String icc) throws SQLException {
-		session.update("iCourse-Mapper.deleteiCourse", icc);
-		
+		int cnt = session.update("iCourse-Mapper.deleteiCourse", icc);
+		System.out.println("delete = "+cnt);
 	}
 
 
 	@Override
 	public void updateiCourse(ICourseVO icvo) throws SQLException {
-		System.out.println(">>>>>>>>>>"+icvo);
-		session.update("iCourse-Mapper.updateiCourse", icvo);
-		
+		int cnt = session.update("iCourse-Mapper.updateiCourse", icvo);
+		System.out.println("update = "+cnt);
 	}
 
 	@Override

@@ -3,8 +3,7 @@ package com.spring.lms.iCourse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import org.springframework.format.annotation.DateTimeFormat;
+import java.util.List;
 
 
 public class ICourseRegistCommand {
@@ -117,19 +116,13 @@ public class ICourseRegistCommand {
 
 		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
 		form = this.start;
-		System.out.println("start"+start);
 		start2 = transFormat.parse(form);
-		System.out.println("start2222222");
-		System.out.println(start2);
 		
 		form = this.end;
-		System.out.println("end"+end);
 		end2 = transFormat.parse(form); 
-		System.out.println("end22222222");
-		System.out.println(end2);
 
 		icvo.setIngCourseCode(id);
-		icvo.setCourseName(title);
+		icvo.setAsCourseName(title);
 		icvo.setIngCourseBeginDate(start2);
 		icvo.setIngCourseEndDate(end2);
 		icvo.setIngCourseCount(ingCourseCount);
@@ -139,5 +132,20 @@ public class ICourseRegistCommand {
 		icvo.setRoomCode(roomCode);
 		return icvo;
 	}
+
+	
+	public ICourseRegistCommand toiCourseCommand(List<ICourseVO> ingCourseList) throws ParseException{
+		ICourseRegistCommand iccom = new ICourseRegistCommand();
+		ICourseVO icvo = new ICourseVO();
+			
+		iccom.setCourseCode(icvo.getCourseCode());
+		iccom.setTitle(icvo.getAsCourseName());
+		iccom.setEnd(icvo.getIngCourseEndDate().toString());
+		iccom.setStart(icvo.getIngCourseBeginDate().toString());
+		
+		return iccom;
+			
+	}
+	
 
 }

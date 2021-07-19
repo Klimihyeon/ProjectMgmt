@@ -15,15 +15,15 @@ public class ICourseServcieImpl implements ICourseService{
 	
 	
 	@Override
-	public Map<String, Object> getICourseList() throws SQLException {
+	public List<ICourseVO> getICourseList() throws SQLException {
 		
-		Map<String, Object> dataMap = new HashMap<String, Object>();
+//		Map<String, Object> dataMap = new HashMap<String, Object>();
 		
 		List<ICourseVO> iCourseList = iCourseDAO.selectiCourseList();
-		System.out.println(iCourseList);
-		dataMap.put("iCourseList", iCourseList);
+//		System.out.println(iCourseList);
+//		dataMap.put("iCourseList", iCourseList);
 		
-		return dataMap;
+		return iCourseList;
 	}
 
 	@Override
