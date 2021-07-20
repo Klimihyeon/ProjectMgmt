@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="/lms/resources/vuexy/app-assets/vendors/css/calendars/fullcalendar.min.css">
     <link rel="stylesheet" type="text/css" href="/lms/resources/vuexy/app-assets/vendors/css/forms/select/select2.min.css">
     <link rel="stylesheet" type="text/css" href="/lms/resources/vuexy/app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="/lms/resources/vuexy/app-assets/vendors/css/charts/apexcharts.css">
     <!-- END: Vendor CSS-->
 
     <!-- BEGIN: Theme CSS-->
@@ -30,7 +31,9 @@
     <link rel="stylesheet" type="text/css" href="/lms/resources/vuexy/app-assets/css/plugins/forms/pickers/form-flat-pickr.css">
     <link rel="stylesheet" type="text/css" href="/lms/resources/vuexy/app-assets/css/pages/app-calendar.css">
     <link rel="stylesheet" type="text/css" href="/lms/resources/vuexy/app-assets/css/plugins/forms/form-validation.css">
+    <link rel="stylesheet" type="text/css" href="/lms/resources/vuexy/app-assets/css/pages/app-chat-list.css">
     <!-- END: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="/lms/resources/vuexy/app-assets/css/core/menu/menu-types/vertical-menu.css">
     <link href="https://fonts.googleapis.com/css2?family=Jua&family=Sunflower:wght@300&display=swap" rel="stylesheet">
 
 	<!-- page-profile css -->
