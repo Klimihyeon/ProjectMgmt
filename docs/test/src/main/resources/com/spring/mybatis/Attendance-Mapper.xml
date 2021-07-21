@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Attendance-Mapper">
+	<select id="selectMemberByQR" resultType="attd">
+		SELECT W.NAME AS name
+			,S.STU_PROFILE_IMG AS stuProfileImg
+			,S.STU_STATUS AS stuStatus
+		 FROM STUDENT S, WEBMEMBER W
+		 WHERE S.STUDENT_ID = W.MEMBER_ID
+		  AND S.STUDENT_ID = #{studentId}
+	</select>
+	<select id="selectCourseByQR" resultType="attd">
+		SELECT I.ING_COURSE_NAME AS ingCourseName
+			,C.ING_COURSE_CODE AS ingCourseCode
+		 FROM COURSE_STUDENT C, ING_COURSE I
+		 WHERE C.ING_COURSE_CODE = I.ING_COURSE_CODE
+		 AND C.STUDENT_ID ='#{studentId}'
+	</select> 
+	<select id="selectAttendanceByQR" resultType="attd">
+		SELECT ATTD_CODE
+		,STUDENT_ID AS STUDENTID
+		,ATTD_DATE AS ATTDDATE
+		,TO_CHAR(ATTD_INTIME,'HH24:MI:SS') AS ATTDINTIME
+		,TO_CHAR(ATTD_OUTTIME,'HH24:MI:SS') AS ATTDOUTTIME
+		,ATTD_TYPE AS ATTDTYPE
+		,ATTD_ICON AS ATTDICON
+		,ING_COURSE_CODE AS INGCOURSECODE
+		FROM ATTD_CHECK
+	</select>
+	<update id="insertIntime" parameterType="attd">
+			INSERT INTO ATTD_CHECK
+				(
+				ATTD_CODE, 
+				STUDENT_ID, 
+				ATTD_DATE, 
+				ATTD_INTIME, 
+				ATTD_TYPE, 
+				ATTD_ICON, 
+				ING_COURSE_CODE
+				)
+			
+			 VALUES
+				(
+				SEQ_ATTD_CODE.NEXTVAL,
+				#{studentId}, 
+				TO_CHAR(SYSDATE,'YY-MM-DD'),
+				TO_CHAR(SYSDATE,'HH24:MI:SS'),
+				#{attdType},
+				#{attdIcon},
+				#{ingClassCode}
+				)
+	</update>
+	<update id="updateOuttime" parameterType="attd">
+			UPDATE ATTD_CHECK
+			 SET attd_outtime = sysdate
+			 WHERE student_id = 'minji'
+	</update>
+	<update id="updateAttdType" parameterType="attd">
+			UPDATE ATTD_CHECK
+			 SET attd_Type = '출석'
+			 ,attd_icon ='출석아이콘'
+			 WHERE student_id = 'minji'
+	</update>
+</mapper>
+ 
+
+	   
+	    
+	    
+	  
+	   
+	   
+	    
+	    
