@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <body
 	class="vertical-layout vertical-menu-modern navbar-floating footer-static"
@@ -12,11 +14,35 @@
 			src="<%=request.getContextPath()%>/resources/vuexy/app-assets/vendors/js/jquery/jquery.min.js"></script>
 		<!-- Full calendar start -->
 		<section>
-
+			<div class="card table-responsive">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>과정구분</th>
+							<th>과정명</th>
+							<th>기간</th>
+							<th>강의실</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="ingCourse" items="${ingCourseList}">
+							<tr>
+								<td>${ingCourse.courseType}</td>
+								<td>${ingCourse.courseName}</td>
+								<td><fmt:formatDate
+										value="${ingCourse.ingCourseBeginDate }" pattern="yy-MM-dd" />
+									~ <fmt:formatDate value="${ingCourse.ingCourseEndDate }"
+										pattern="yy-MM-dd" /></td>
+								<td>${ingCourse.roomCode}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
 			<div class="app-calendar overflow-hidden border row match-height">
 
 				<!-- 캘린더 전체 -->
-				<div class="col-sm-8">
+				<div class="col-sm-8 ">
 					<div class="g-0 row match-height">
 
 						<!-- Calendar -->
@@ -84,194 +110,38 @@
 						<!-- /Sidebar -->
 						<!-- /Calendar -->
 
-
 					</div>
 				</div>
-
-				<!-- 출석확인 -->
-				<div class="col-lg-4 card card-statistics">
-					<div class="content-wrapper container-xxl p-0">
-						<div class="content-body">
-							<!-- Card Advance -->
-							<div class="row match-height">
-								<!-- Employee Task Card -->
-								<!-- Employee Task Card -->
-								<div class="col-12">
-									<div class="card card-employee-task">
-										<div class="card-header">
-											<h4 class="card-title">과목별 진도확인</h4>
-											<i data-feather="more-vertical"
-												class="font-medium-3 cursor-pointer"></i>
-										</div>
-										<div class="card-body">
-											<div
-												class="employee-task d-flex justify-content-between align-items-center">
-												<div class="d-flex flex-row">
-													<div class="avatar me-75">
-														<img
-															src="<%=request.getContextPath()%>/resources/vuexy/app-assets/images/portrait/small/spring.png"
-															class="rounded" width="42" height="42" alt="Avatar" />
-													</div>
-													<div class="my-auto">
-														<h6 class="mb-0">Spring framework</h6>
-														<small>annotation</small>
-													</div>
-												</div>
-												<div class="d-flex align-items-center">
-													<small class="text-muted me-75">9hr 20m</small>
-													<div class="employee-task-chart-primary-1"></div>
-												</div>
-											</div>
-											<div
-												class="employee-task d-flex justify-content-between align-items-center">
-												<div class="d-flex flex-row">
-													<div class="avatar me-75">
-														<img
-															src="<%=request.getContextPath()%>/resources/vuexy/app-assets/images/portrait/small/js_img.png"
-															class="rounded" width="42" height="42" alt="Avatar" />
-													</div>
-													<div class="my-auto">
-														<h6 class="mb-0">JavaScript</h6>
-														<small>JSTL</small>
-													</div>
-												</div>
-												<div class="d-flex align-items-center">
-													<small class="text-muted me-75">4hr 17m</small>
-													<div class="employee-task-chart-danger"></div>
-												</div>
-											</div>
-											<div
-												class="employee-task d-flex justify-content-between align-items-center">
-												<div class="d-flex flex-row">
-													<div class="avatar me-75">
-														<img
-															src="<%=request.getContextPath()%>/resources/vuexy/app-assets/images/portrait/small/java.jpg"
-															class="rounded" width="42" height="42" alt="Avatar" />
-													</div>
-													<div class="my-auto">
-														<h6 class="mb-0">Java</h6>
-														<small>ServletWork</small>
-													</div>
-												</div>
-												<div class="d-flex align-items-center">
-													<small class="text-muted me-75">4hr 17m</small>
-													<div class="employee-task-chart-danger"></div>
-												</div>
-											</div>
-											<div
-												class="employee-task d-flex justify-content-between align-items-center">
-												<div class="d-flex flex-row">
-													<div class="avatar me-75">
-														<img
-															src="<%=request.getContextPath()%>/resources/vuexy/app-assets/images/portrait/small/html5.png"
-															class="rounded" width="42" height="42" alt="Avatar" />
-													</div>
-													<div class="my-auto">
-														<h6 class="mb-0">HTML</h6>
-														<small>Bootstrap,Css</small>
-													</div>
-												</div>
-												<div class="d-flex align-items-center">
-													<small class="text-muted me-75">4hr 17m</small>
-													<div class="employee-task-chart-danger"></div>
-												</div>
-											</div>
-
-											<div class="car card-company-table">
-												<table class="table">
-													<tr>
-														<th>
-															<div class="avatar bg-light-success me-1">
-																<div class="avatar-content">
-																	<svg xmlns="http://www.w3.org/2000/svg" width="14"
-																		height="14" viewBox="0 0 24 24" fill="none"
-																		stroke="currentColor" stroke-width="2"
-																		stroke-linecap="round" stroke-linejoin="round"
-																		class="feather feather-monitor font-medium-3">
-																<rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-																<line x1="8" y1="21" x2="16" y2="21"></line>
-																<line x1="12" y1="17" x2="12" y2="21"></line></svg>
-																</div>
-															</div> 출석
-
-														</th>
-														<td>
-															<div class="fw-bolder text-success">71days</div>
-														</td>
-													</tr>
-													<tr>
-														<th>
-															<div class="avatar bg-light-danger me-1">
-																<div class="avatar-content">
-																	<svg xmlns="http://www.w3.org/2000/svg" width="14"
-																		height="14" viewBox="0 0 24 24" fill="none"
-																		stroke="currentColor" stroke-width="2"
-																		stroke-linecap="round" stroke-linejoin="round"
-																		class="feather feather-coffee font-medium-3">
-															<path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
-															<path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
-															<line x1="6" y1="1" x2="6" y2="4"></line>
-															<line x1="10" y1="1" x2="10" y2="4"></line>
-															<line x1="14" y1="1" x2="14" y2="4"></line></svg>
-																</div>
-															</div> 결석
-														</th>
-														<td>
-															<div class="fw-bolder text-danger">1days</div>
-
-														</td>
-													</tr>
-													<tr>
-														<th>
-															<div class="avatar bg-light-warning me-1">
-																<div class="avatar-content">
-																	<svg xmlns="http://www.w3.org/2000/svg" width="14"
-																		height="14" viewBox="0 0 24 24" fill="none"
-																		stroke="currentColor" stroke-width="2"
-																		stroke-linecap="round" stroke-linejoin="round"
-																		class="feather feather-watch font-medium-3">
-															<circle cx="12" cy="12" r="7"></circle>
-															<polyline points="12 9 12 12 13.5 13.5"></polyline>
-															<path d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83m.01-10.7l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"></path></svg>
-																</div>
-															</div> 지각
-														</th>
-														<td>
-															<div class="fw-bolder text-warning">3days</div>
-														</td>
-
-
-													</tr>
-												</table>
-											</div>
-											<!-- QRCODE Attendance start-->
-											<div class="d-flex justify-content-center">
-												<button class="btn btn-danger btn-lg" id="qrMaker">
-													<span class="align-middle">QR Code출석하기</span>
-												</button>
-												<br>
-											</div>
-											<div class="d-flex justify-content-center">
-												<input id="contents" type="hidden" name="contents" value="${loginUser.usersId }"/>
-												<img id="qrImg" class="rounded" width="200" height="200" alt="Qr" style="display:none;" onload="this.style.display='block'"/>
-												<input id="getId" type="hidden" value="${content }">
-											</div>
-										</div>
-									</div>
-								</div>
-								<!--/ Employee Task Card -->
-
-							</div>
-
-
-
-							<!--/ Card Advance -->
-
-						</div>
+				<div class="col-lg-4 card">
+					<div class="card-header">
+						<h1>과목리스트</h1>
+					</div>
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<td>과목</td>
+									<td>시간</td>
+									<td>강사</td>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="subIngCourse" items="${subInIngCourseList}">
+									<tr>
+										<td>${subIngCourse.subName}</td>
+										<td>${subIngCourse.subTime}</td>
+										<td>${subIngCourse.profId}</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+					<div class="card-header">
+						<h1>추가컨텐츠..</h1>
 					</div>
 
-				</div>
 
+				</div>
 			</div>
 
 			<!-- Calendar Add/Update/Delete event modal-->
@@ -375,16 +245,7 @@
 		<!-- Full calendar end -->
 		<!-- Full calendar js-->
 		<script>
-		$(document).ready(function(){
-	        $("#qrMaker").click(function(){
-	               url = "/lms/student/manage/createCode.do";
-	               var content = $("#contents").val();
-	               $("#qrImg").attr("src", url+"?content="+content);
-	              
-	        });
-	});
-		
-		var events = [ {
+			var events = [ {
 				id : 1,
 				title : 'Design Review',
 				start : '2009-07-01',
@@ -399,8 +260,10 @@
 					type : 'POST',
 					url : 'event',
 					dataType : "json",
-					data: JSON.stringify({"id":id}),
-					contentType: "application/json",
+					data : JSON.stringify({
+						"id" : id
+					}),
+					contentType : "application/json",
 					success : function(result) {
 						console.log(result);
 						console.log(calendar);
@@ -460,7 +323,7 @@
 						console.log(even);
 						calendar.addEvent(even);
 						calendar.refetchEvents();
-						
+
 						id = result[3].subInIngCourseCode;
 						title = result[3].subName;
 						start = result[3].subBDateString;
@@ -477,12 +340,12 @@
 						console.log(even);
 						calendar.addEvent(even);
 						calendar.refetchEvents();
-						
+
 						id = result[4].subInIngCourseCode;
 						title = result[4].subName;
 						start = result[4].subBDateString;
 						end = result[4].subEDateString;
-						
+
 						even = {
 							"id" : id,
 							"title" : title,
@@ -495,7 +358,7 @@
 						console.log(even);
 						calendar.addEvent(even);
 						calendar.refetchEvents();
-						
+
 						id = result[5].subInIngCourseCode;
 						title = result[5].subName;
 						start = result[5].subBDateString;
@@ -517,7 +380,6 @@
 
 			}
 			eventMaker(id);
-			
 		</script>
 		<script
 			src="<%=request.getContextPath()%>/resources/vuexy/app-assets/js/scripts/pages/app-calendar.js"></script>

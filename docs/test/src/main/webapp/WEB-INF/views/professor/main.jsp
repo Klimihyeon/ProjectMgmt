@@ -1,15 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+${loginUser.usersId }
+<!-- 
+시간표 o
+교육진도 x
+일일 출석현황 x
+qna x
+
+ -->
 <body
 	class="vertical-layout vertical-menu-modern navbar-floating footer-static"
 	data-open="click" data-menu="vertical-menu-modern" data-col="">
+	<style>
+</style>
 	<div class="container">
-		<!-- jquery-->
-		<script
-			src="<%=request.getContextPath()%>/resources/vuexy/app-assets/vendors/js/jquery/jquery.min.js"></script>
 		<!-- Full calendar start -->
 		<section>
 
@@ -50,27 +56,27 @@
 										<div class="form-check form-check-danger mb-1">
 											<input type="checkbox" class="form-check-input input-filter"
 												id="personal" data-value="personal" checked /> <label
-												class="form-check-label" for="personal">Java-web</label>
+												class="form-check-label" for="personal">Personal</label>
 										</div>
 										<div class="form-check form-check-primary mb-1">
 											<input type="checkbox" class="form-check-input input-filter"
 												id="business" data-value="business" checked /> <label
-												class="form-check-label" for="business">자바프로그래밍</label>
+												class="form-check-label" for="business">Business</label>
 										</div>
 										<div class="form-check form-check-warning mb-1">
 											<input type="checkbox" class="form-check-input input-filter"
 												id="family" data-value="family" checked /> <label
-												class="form-check-label" for="family">자바애플리케이션</label>
+												class="form-check-label" for="family">Family</label>
 										</div>
 										<div class="form-check form-check-success mb-1">
 											<input type="checkbox" class="form-check-input input-filter"
 												id="holiday" data-value="holiday" checked /> <label
-												class="form-check-label" for="holiday">웹프로그래밍</label>
+												class="form-check-label" for="holiday">Holiday</label>
 										</div>
 										<div class="form-check form-check-info">
 											<input type="checkbox" class="form-check-input input-filter"
 												id="etc" data-value="etc" checked /> <label
-												class="form-check-label" for="etc">오픈소스</label>
+												class="form-check-label" for="etc">ETC</label>
 										</div>
 									</div>
 								</div>
@@ -180,81 +186,30 @@
 											<div class="car card-company-table">
 												<table class="table">
 													<tr>
-														<th>
-															<div class="avatar bg-light-success me-1">
-																<div class="avatar-content">
-																	<svg xmlns="http://www.w3.org/2000/svg" width="14"
-																		height="14" viewBox="0 0 24 24" fill="none"
-																		stroke="currentColor" stroke-width="2"
-																		stroke-linecap="round" stroke-linejoin="round"
-																		class="feather feather-monitor font-medium-3">
-																<rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-																<line x1="8" y1="21" x2="16" y2="21"></line>
-																<line x1="12" y1="17" x2="12" y2="21"></line></svg>
-																</div>
-															</div> 출석
-
-														</th>
 														<td>
-															<div class="fw-bolder text-success">71days</div>
 														</td>
 													</tr>
 													<tr>
 														<th>
-															<div class="avatar bg-light-danger me-1">
-																<div class="avatar-content">
-																	<svg xmlns="http://www.w3.org/2000/svg" width="14"
-																		height="14" viewBox="0 0 24 24" fill="none"
-																		stroke="currentColor" stroke-width="2"
-																		stroke-linecap="round" stroke-linejoin="round"
-																		class="feather feather-coffee font-medium-3">
-															<path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
-															<path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
-															<line x1="6" y1="1" x2="6" y2="4"></line>
-															<line x1="10" y1="1" x2="10" y2="4"></line>
-															<line x1="14" y1="1" x2="14" y2="4"></line></svg>
-																</div>
-															</div> 결석
 														</th>
 														<td>
-															<div class="fw-bolder text-danger">1days</div>
-
 														</td>
 													</tr>
 													<tr>
 														<th>
-															<div class="avatar bg-light-warning me-1">
-																<div class="avatar-content">
-																	<svg xmlns="http://www.w3.org/2000/svg" width="14"
-																		height="14" viewBox="0 0 24 24" fill="none"
-																		stroke="currentColor" stroke-width="2"
-																		stroke-linecap="round" stroke-linejoin="round"
-																		class="feather feather-watch font-medium-3">
-															<circle cx="12" cy="12" r="7"></circle>
-															<polyline points="12 9 12 12 13.5 13.5"></polyline>
-															<path d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83m.01-10.7l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"></path></svg>
-																</div>
-															</div> 지각
 														</th>
 														<td>
-															<div class="fw-bolder text-warning">3days</div>
 														</td>
 
 
 													</tr>
 												</table>
 											</div>
-											<!-- QRCODE Attendance start-->
 											<div class="d-flex justify-content-center">
-												<button class="btn btn-danger btn-lg" id="qrMaker">
-													<span class="align-middle">QR Code출석하기</span>
-												</button>
-												<br>
-											</div>
-											<div class="d-flex justify-content-center">
-												<input id="contents" type="hidden" name="contents" value="${loginUser.usersId }"/>
-												<img id="qrImg" class="rounded" width="200" height="200" alt="Qr" style="display:none;" onload="this.style.display='block'"/>
-												<input id="getId" type="hidden" value="${content }">
+												<img id="qrImg"
+													src="<%=request.getContextPath()%>/resources/vuexy/app-assets/images/portrait/small/qrcode.png"
+													class="rounded" width="200" height="200" alt="Qr"
+													style="visibility: hidden;" />
 											</div>
 										</div>
 									</div>
@@ -373,18 +328,10 @@
 
 		</section>
 		<!-- Full calendar end -->
+		<!-- BEGIN: Content-->
 		<!-- Full calendar js-->
 		<script>
-		$(document).ready(function(){
-	        $("#qrMaker").click(function(){
-	               url = "/lms/student/manage/createCode.do";
-	               var content = $("#contents").val();
-	               $("#qrImg").attr("src", url+"?content="+content);
-	              
-	        });
-	});
-		
-		var events = [ {
+			var events = [ {
 				id : 1,
 				title : 'Design Review',
 				start : '2009-07-01',
@@ -399,8 +346,10 @@
 					type : 'POST',
 					url : 'event',
 					dataType : "json",
-					data: JSON.stringify({"id":id}),
-					contentType: "application/json",
+					data : JSON.stringify({
+						"id" : id
+					}),
+					contentType : "application/json",
 					success : function(result) {
 						console.log(result);
 						console.log(calendar);
@@ -460,7 +409,7 @@
 						console.log(even);
 						calendar.addEvent(even);
 						calendar.refetchEvents();
-						
+
 						id = result[3].subInIngCourseCode;
 						title = result[3].subName;
 						start = result[3].subBDateString;
@@ -477,12 +426,12 @@
 						console.log(even);
 						calendar.addEvent(even);
 						calendar.refetchEvents();
-						
+
 						id = result[4].subInIngCourseCode;
 						title = result[4].subName;
 						start = result[4].subBDateString;
 						end = result[4].subEDateString;
-						
+
 						even = {
 							"id" : id,
 							"title" : title,
@@ -495,7 +444,7 @@
 						console.log(even);
 						calendar.addEvent(even);
 						calendar.refetchEvents();
-						
+
 						id = result[5].subInIngCourseCode;
 						title = result[5].subName;
 						start = result[5].subBDateString;
@@ -514,14 +463,11 @@
 						calendar.refetchEvents();
 					}
 				});
-
 			}
 			eventMaker(id);
-			
 		</script>
 		<script
 			src="<%=request.getContextPath()%>/resources/vuexy/app-assets/js/scripts/pages/app-calendar.js"></script>
 		<!-- Full calendar js-->
 	</div>
-
 </body>
